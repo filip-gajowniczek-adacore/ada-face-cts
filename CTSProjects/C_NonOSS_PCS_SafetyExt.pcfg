@@ -1,0 +1,26 @@
+segment: PCS
+language: LANG_C
+profile: PROF_SAFETY_EXT
+partition: PART_POSIX
+toolchain_filename: "../FACEConformanceTestSuite/toolchain/configuration_files/C_NonOSS_SafetyExt.tcfg"
+gold_standard_lib_dir: "GSL-C_NonOSS_PCS_SafetyExt"
+versions {
+}
+operating_system: "Sys: [Linux], Release: [5.10.0-0.bpo.12-amd64], Version: [#1 SMP Debian 5.10.103-1~bpo10+1 (2022-03-08)], Arch: [64 bits]"
+pcs {
+  data_model {
+    sdm: "../FACEConformanceTestSuite/sample/datamodels/model.face"
+    usm: "../FACEConformanceTestSuite/sample/datamodels/model.face"
+    uop: "UoP1"
+  }
+  segment_objects_config {
+    segment_object_type: SEGMENT_OBJECTS_PROVIDED
+    build_conformance_objects_config {
+    }
+  }
+  lcm {
+  }
+}
+base_directory_path: "/home/face/CTSProjects"
+uop_name: "UoP1"
+posix_multi_process: true

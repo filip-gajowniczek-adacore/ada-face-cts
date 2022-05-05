@@ -1,0 +1,32 @@
+pathdirs: "/opt/GNAT/2017-GPL/bin"
+language: LANG_ADA
+toolchain_segment_type: NON_OSS_TOOLCHAIN
+profiles: PROF_SAFETY_EXT
+toolchain_specific_config {
+}
+operating_system: "Sys: [Linux], Release: [5.10.0-0.bpo.12-amd64], Version: [#1 SMP Debian 5.10.103-1~bpo10+1 (2022-03-08)], Arch: [64 bits]"
+file_extensions {
+  obj: "o"
+  src: "adb"
+  hdr: "ads"
+  lib: "a"
+}
+compiler {
+  exe: "gcc"
+  flags: "-c"
+  output_flag: "-o"
+}
+linker {
+  exe: "gcc"
+  flags: "-lgnat -lgnarl -nostartfiles"
+  output_flag: "-o"
+  paths: "/home/face/workspace/Ada_GSL/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib"
+}
+archiver {
+  exe: "ar"
+  flags: "cr"
+}
+binder {
+  exe: "gnatbind"
+}
+toolchain_template: "/home/face/FACEConformanceTestSuite/datafiles/stringtemplate/defaultAdaToolchainTemplates.stg"
