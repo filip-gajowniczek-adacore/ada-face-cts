@@ -34,5 +34,7 @@ package Exports is
    Stubbed29 : constant Address := Null_Address with Export, Convention => C, External_Name => "__gnat_Unwind_ForcedUnwind";
    Stubbed30 : constant Address := Null_Address with Export, Convention => C, External_Name => "__gl_exception_tracebacks";
    Stubbed31 : constant Address := Null_Address with Export, Convention => C, External_Name => "put_char_stderr";
+   Stubbed32 : constant Address := Null_Address with Export, Convention => C, External_Name => "_Unwind_Resume";
+   Stubbed33 : constant Address := Null_Address with Export, Convention => C, External_Name => "_Unwind_DeleteException";
 
 end Exports;
