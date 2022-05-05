@@ -1,10 +1,10 @@
---  with System.VxWorks.Ext;  -- an internal package
+with System.VxWorks.Ext;  -- an internal package
 
 with Ada.Task_Identification;  -- allowed 
 
---  with Calendar;      --  already not supported by Ravenscar in cert runtime
+with Calendar;      --  already not supported by Ravenscar in cert runtime
 --     error: violation of implicit restriction "No_Calendar"
---  with Ada.Calendar;  --  already not supported by Ravenscar in cert runtime
+with Ada.Calendar;  --  already not supported by Ravenscar in cert runtime
 --     error: "Ada.Calendar" is not a predefined library unit
 
 with Ada.Characters.Handling;
@@ -16,7 +16,7 @@ with Protected_Objects; --  pragma Unreferenced (Protected_Objects);
 
 procedure Demo is
 
-   --  X : Wide_Character;
+   X : Wide_Character;
    --  We would need to change package Standard and rebuild the compiler to
    --  prevent this, but we can use the GNAT-defined restriction
    --       pragma Restrictions (No_Use_Of_Entity => Wide_String); 
@@ -24,13 +24,18 @@ procedure Demo is
    --  to disallow them:
    --    error: reference to "Wide_Character" violates restriction No_Use_Of_Entity at ...\face_restrictions.adc:1
    
-   --  Y : constant Wide_Character := Ada.Characters.Handling.To_Wide_Character ('x');
+   Y : constant Wide_Character := Ada.Characters.Handling.To_Wide_Character ('x');
    --  error: reference to "Wide_Character" violates restriction No_Use_Of_Entity at ...\face_restrictions.adc:1
    --  error: "To_Wide_Character" not declared in "Handling"
    
-   --  Z : Wide_Character := Ada.Strings.Wide_Space;
+   Z : Wide_Character := Ada.Strings.Wide_Space;
    --  error: reference to "Wide_Character" violates restriction No_Use_Of_Entity at ...\face_restrictions.adc:1
    --  error: "Wide_Space" not declared in "Strings"
+
+   function getchar return Integer;
+   pragma Import (C, getchar, "getchar");
+   I : Integer := getchar;
+   --  link-time error: undefined reference to `getchar'
    
 begin
    Protected_Objects.PO.E;
