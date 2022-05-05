@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE map SYSTEM "http://java.sun.com/dtd/preferences.dtd">
-<map MAP_XML_VERSION="1.0"/>
+<map MAP_XML_VERSION="1.0">
+  <entry key="RECENT_PROJECT_LIST0" value="/home/face/CTSProjects/Ada_NonOSS_PCS_SafetyExt.pcfg"/>
+  <entry key="RECENT_PROJECT_LIST1" value="/home/face/CTSProjects/C_NonOSS_PCS_SafetyExt.pcfg"/>
+</map>
