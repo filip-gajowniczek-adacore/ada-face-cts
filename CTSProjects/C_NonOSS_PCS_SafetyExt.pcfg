@@ -15,6 +15,12 @@ pcs {
   }
   segment_objects_config {
     segment_object_type: SEGMENT_OBJECTS_PROVIDED
+    provided_objects_filenames: "../workspace/sample_code/safety_extended/objs/demo.o"
+    provided_objects_filenames: "../workspace/Ada_GSL/FACE_CTS_Clients/safety_extended/objs/protected_objects.o"
+    provided_objects_filenames: "../workspace/Ada_GSL/FACE_CTS_Clients/safety_extended/objs/tasks.o"
+    provided_objects_filenames: "../workspace/sample_code/injectable_interfaces/libada_injectables.a"
+    provided_objects_filenames: "../workspace/Ada_GSL/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib/libgnat.a"
+    provided_objects_filenames: "../workspace/Ada_GSL/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib/libgnarl.a"
     build_conformance_objects_config {
     }
   }
