@@ -1,1 +1,1 @@
-FACEConformanceTestSuite/sample/projects/Ada/build_GSL/include/FACE/face-configuration.ads
+FACEConformanceTestSuite/goldStandardLibraries/Ada/include/FACE/OSS/Configuration/face-configuration.ads

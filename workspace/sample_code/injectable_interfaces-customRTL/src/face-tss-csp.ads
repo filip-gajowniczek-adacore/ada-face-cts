@@ -1,1 +1,1 @@
-FACEConformanceTestSuite/sample/projects/Ada/build_GSL/include/FACE/face-tss-csp.ads
+FACEConformanceTestSuite/goldStandardLibraries/Ada/include/FACE/TSS/CSP/face-tss-csp.ads

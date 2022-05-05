@@ -124,7 +124,7 @@ ${prj_src_dirs}
    );
    for Object_Dir use "obj";
 
-   for Runtime ("Ada") use "/home/face/workspace/FACE_Gold_RTLs/rts-ravenscar-safety_extended";
+   for Runtime ("Ada") use "../../Ada_GSL/FACE_Gold_RTLs/rts-face-gsl-safety_extended/";
 
 end Injectable_Interfaces;
 EOF
