@@ -1,0 +1,1 @@
+FACEConformanceTestSuite/sample/projects/Ada/build_GSL/include/FACE/idl_modules-face_idl_2_1_configuration_1_1.ads

@@ -1,0 +1,1 @@
+FACEConformanceTestSuite/sample/projects/Ada/PCS/General/PCS/face_configuration_injectable_injectable_impl.adb

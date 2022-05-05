@@ -1,0 +1,1 @@
+FACEConformanceTestSuite/sample/projects/Ada/build_GSL/include/FACE/face-configuration.ads
