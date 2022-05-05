@@ -1,0 +1,21 @@
+--  A configurations pragmas file for the FACE Safety-Base capability set
+
+--  These restrictions are applied automatically in package System:
+--
+--     pragma Profile (Ravenscar);
+--     pragma Restrictions (Max_Asynchronous_Select_Nesting => 0);
+--     pragma Restrictions (No_Use_Of_Pragma => Attach_Handler);
+--     pragma Restrictions (No_Specification_Of_Aspect => Attach_Handler);
+--     pragma Restrictions (No_Allocators);
+--     pragma Restrictions (No_Use_Of_Pragma => Default_Storage_Pool);
+--     pragma Restrictions (No_Specification_Of_Aspect => Default_Storage_Pool);
+
+--  These pragmas are universal, applied in all capability sets:
+--
+pragma Restrictions (No_Use_Of_Entity => Wide_Character);
+pragma Restrictions (No_Use_Of_Entity => Wide_Wide_Character);
+
+--  These restrictions are specific to this capability set:
+--
+pragma Restrictions (No_Exception_Handlers);
+--  no explicit exception handlers and no exception propagation 

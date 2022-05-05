@@ -1,0 +1,4 @@
+--  A configurations pragmas file for the FACE General capability set
+
+pragma Restrictions (No_Use_Of_Entity => Wide_Character);
+pragma Restrictions (No_Use_Of_Entity => Wide_Wide_Character);
