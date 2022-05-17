@@ -1,0 +1,153 @@
+--------------------------------------------------------
+--  This contains the gnatcheck rules for violations of
+--  FACE™ 3.1 Ada 95 General Capability Set
+--------------------------------------------------------
+
+--
+--
+--  THIS IS A DRAFT
+--
+--
+
+
++R : ADA_GENERAL_ADA95 :
+   Forbidden_Pragmas : Ada_05,
+                       Ada_2005,
+                       Ada_12,
+                       Ada_2012,
+                       Extensions_Allowed
+
+-------------------------------------------------------------------------------
+
+--  Implementation-defined pragmas (Ada 95 LRM, §2.8 (14)) for data
+--  structure compositions on FACE Interfaces
+--
+--  Note:    All other uses of implementation-defined pragma directives
+--           are permitted.
+--
+--  Note:    Use of the language-defined pragmas (e.g., pragma Priority,
+--           pragma Import, pragma Export) defined throughout the Ada 95
+--           LRM is permitted.
+--
+--  Note:    Support for pragma directives is compiler implementation-
+--           dependent. A compiler ignores pragma directives it does not
+--           recognize.
+--
+
++R : ADA_GENERAL_IMPLEMENTATION_PRAGMAS :
+   Forbidden_Pragmas : Component_Alignment,
+                       Default_Scalar_Storage_Order,
+                       Float_Representation,
+                       Implicit_Packing,
+                       No_Component_Reordering,
+                       Optimize_Alignment,
+                       Scalar_Storage_Order,
+                       Volatile_Full_Access
+
+-------------------------------------------------------------------------------
+
+--  Asynchronous Transfer of Control (Ada 95 LRM, §9.7.4)
+
++R : ADA_GENERAL_ASYNC_CTL :
+   Restrictions : Max_Asynchronous_Select_Nesting => 0
+
+
+-------------------------------------------------------------------------------
+
+--  Wide characters, wide strings, and wide text
+
++R : ADA_GENERAL_WIDE_TEXT :
+   Restrictions : No_Wide_Characters
+
++R : ADA_GENERAL_WIDE_TEXT :
+   Restrictions : No_Dependence => Ada.Wide_Text_IO
+
+
+-------------------------------------------------------------------------------
+
+--  Input/Output capabilities as defined in Ada 95 LRM, §13.13, A.6,
+--  A.7, A.8, A.9, A.10, A.11, A.12, A.13 access to files requiring any
+--  external communications interface hardware or to external hardware
+--  devices
+--
+--  As described in §A.10, In_File and Out_File must be defined to an
+--  internal file. This file definition restriction applies to all of
+--  Annex A and §13.13.
+--
+--  Note:    The definition of external_file and file_objects is
+--           restricted to files accessible internally by the OSS.
+--
+
+--  ??? These rules are excessive, since you are permitted to use these
+--  ??? interfaces to access internal resources.
+
++R : ADA_GENERAL_IO :
+   Forbidden_Attributes : Read, Write, Input, Output
+
++R : ADA_GENERAL_IO :
+   Restrictions : No_Dependence => GNAT.IO,
+                  No_Dependence => Ada.Sequential_IO,
+                  No_Dependence => Ada.Direct_IO,
+                  No_Dependence => Ada.Storage_IO,
+                  No_Dependence => Ada.Text_IO,
+                  No_Dependence => Ada.Text_IO.Text_Streams,
+                  No_Dependence => Ada.Text_IO.Integer_IO,
+                  No_Dependence => Ada.Text_IO.Modular_IO,
+                  No_Dependence => Ada.Text_IO.Float_IO,
+                  No_Dependence => Ada.Text_IO.Fixed_IO,
+                  No_Dependence => Ada.Text_IO.Decimal_IO,
+                  No_Dependence => Ada.Text_IO.Enumeration_IO,
+                  No_Dependence => Ada.Wide_Text_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Text_Streams,
+                  No_Dependence => Ada.Wide_Text_IO.Integer_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Modular_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Float_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Fixed_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Decimal_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Enumeration_IO,
+                  No_Dependence => Ada.Float_Text_IO,
+                  No_Dependence => Ada.Integer_Text_IO,
+                  No_Dependence => Ada.Long_Float_Text_IO,
+                  No_Dependence => Ada.Long_Integer_Text_IO,
+                  No_Dependence => Ada.Float_Wide_Text_IO,
+                  No_Dependence => Ada.Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Float_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Streams.Stream_IO,
+                  No_Dependence => Ada.IO_Exceptions
+
+-------------------------------------------------------------------------------
+
+--  The Distributed Systems Annex (Ada 95 LRM, Annex E)
+
++R : ADA_GENERAL_DISTRIBUTED_SYSTEMS :
+   Forbidden_Attributes : Body_Version,
+                          Partition_Id,
+                          Version,
+
+
++R : ADA_GENERAL_DISTRIBUTED_SYSTEMS :
+   Forbidden_Pragmas : All_Calls_Remote,
+                       Asynchronous,
+                       Remote_Call_Interface,
+                       Remote_Types,
+                       Shared_Passive
+
++R : ADA_GENERAL_DISTRIBUTED_SYSTEMS :
+   Restrictions : No_Dependence => System.RPC
+
+-------------------------------------------------------------------------------
+
+--  The Information Systems Annex (Ada 95 LRM, Annex F)
+
++R : ADA_GENERAL_INFO_SYSTEMS :
+   Forbidden_Attributes : Machine_Radix
+--  The Annex describes the setting of Machine_Radix in an attribute definition clause,
+--  i.e., a specific usage, not a general prohibition. (The attribute is defined elsewhere,
+--  in Annex A.)
+
++R : ADA_GENERAL_INFO_SYSTEMS :
+   Restrictions : No_Dependence => Ada.Decimal,
+                  No_Dependence => Ada.Text_IO.Editing,
+                  No_Dependence => Ada.Wide_Text_IO.Editing
+

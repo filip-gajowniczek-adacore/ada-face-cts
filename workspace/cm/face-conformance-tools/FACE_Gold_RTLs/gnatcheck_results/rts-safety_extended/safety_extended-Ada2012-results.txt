@@ -1,0 +1,44 @@
+GNATCheck report
+
+date              : 2021-07-29 16:45
+gnatcheck version : gnatcheck Pro 22.0w (20210424)
+command line      : C:\GNATPRO\native\bin\gnat.exe check -P C:\work\FACE_Gold_RTLs\face_analysis.gpr -dd -XCapability_Set=safety_extended 
+runtime           : <default>
+coding standard   : rules/safety_extended-Ada2012.txt
+list of sources   : safety_extended-Ada2012-results-source-list.txt
+
+1. Summary
+
+   fully compliant sources               : 233
+   sources with exempted violations only : 0
+   sources with non-exempted violations  : 0
+   unverified sources                    : 0
+   total sources                         : 233
+   ignored sources                       : 0
+
+   non-exempted violations               : 0
+   rule exemption warnings               : 0
+   compilation errors                    : 0
+   exempted violations                   : 0
+   gnatcheck warnings                    : 0
+
+2. Exempted Coding Standard Violations
+
+   no exempted violations detected
+
+3. Non-exempted Coding Standard Violations
+
+   no non-exempted violations detected
+
+4. Rule exemption problems
+
+   no rule exemption problems detected
+
+5. Language violations
+
+   no language violations detected
+
+6. Gnatcheck warnings
+
+   no gnatcheck warnings issued
+

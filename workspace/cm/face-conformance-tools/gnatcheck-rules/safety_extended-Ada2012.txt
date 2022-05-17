@@ -1,0 +1,578 @@
+----------------------------------------------------------
+--  This contains the gnatcheck rules for violations of
+--  FACE™ 3.1 Ada 2012 Safety Extended Capability Set
+----------------------------------------------------------
+
+--
+--
+--  THIS IS A DRAFT
+--
+--
+
+
++R : ADA_SAFETY_EXT_ADA2012 :
+   Forbidden_Pragmas : Extensions_Allowed
+
+
+-------------------------------------------------------------------------------
+
+--  Component use of implementation-defined pragmas (Ada 2012 LRM, §2.8
+--  (14)) for data structure compositions on FACE Interfaces is excluded
+--
+--  Note:    All other uses of implementation-defined pragma directives
+--           are permitted.
+--
+--  Note:    Use of the language-defined pragmas (e.g., pragma Priority,
+--           pragma Import, pragma Export, etc.) defined throughout the
+--           Ada 2012 LRM is permitted.
+--
+--  Note:    Support for pragma directives is compiler implementation-
+--           dependent. A compiler ignores pragma directives it does not
+--           recognize.
+--
+
++R : ADA_SAFETY_EXT_IMPLEMENTATION_PRAGMAS :
+   Forbidden_Pragmas : Component_Alignment,
+                       Default_Scalar_Storage_Order,
+                       Float_Representation,
+                       Implicit_Packing,
+                       No_Component_Reordering,
+                       Optimize_Alignment,
+                       Scalar_Storage_Order,
+                       Volatile_Full_Access
+
+
+-------------------------------------------------------------------------------
+
+--  Asynchronous Transfer of Control (Ada 2012 LRM, §9.7.4) and dependencies
+
++R : ADA_SAFETY_EXT_ASYNC_CTL :
+   Restrictions : Max_Asynchronous_Select_Nesting => 0
+
+
+-------------------------------------------------------------------------------
+
+--  Synchronized, task, and protected interfaces (Ada 2012 LRM 3.9.4)
+
+--+R : ADA_SAFETY_EXT_CONCURRENT_INTERFACES :
+--   Restrictions :
+
+--  Can't enforce this currently, no existing rule
+
+-------------------------------------------------------------------------------
+
+--  Exception handling (Ada 2012 LRM, §11) the Exception_Information and
+--  Exception_Message functions
+
+--  Can't enforce this currently, no existing rule
+
+
+-------------------------------------------------------------------------------
+
+--  The only permitted syntax for a formal_package_actual_part in a
+--  formal_package_declaration (Ada 2012 LRM 12.7) is:
+--
+--     formal_package_actual_part ::= (<>) | [generic_actual_part]
+--
+
+--  Can't enforce this currently, no existing rule
+
+-------------------------------------------------------------------------------
+
+--  Deallocation in Storage Management (Ada 2012 LRM, §13.11) is
+--  excluded (i.e., no usage of the Deallocate procedure,
+--  Unchecked_Deallocation) and memory allocation post startup/
+--  initialization
+
++R : ADA_SAFETY_EXT_STORAGE_MGMT :
+   Restrictions : No_Unchecked_Deallocation,
+                  No_Standard_Allocators_After_Elaboration
+
+-------------------------------------------------------------------------------
+
+--  Wide characters, wide strings, and wide text
+--  Wide wide characters, wide wide strings, and wide wide text
+
++R : ADA_SAFETY_EXT_WIDE_TEXT :
+   Restrictions : No_Wide_Characters
++R : ADA_SAFETY_EXT_WIDE_TEXT :
+   Restrictions : No_Dependence => Ada.Wide_Text_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO
+
+
+-------------------------------------------------------------------------------
+
+--  Random Number Generation (Ada 2012 LRM, §A.5.2)
+
++R : ADA_SAFETY_EXT_RANDOM_NUMBERS :
+   Restrictions : No_Dependence => Ada.Numerics.Float_Random,
+                  No_dependence => Ada.Numerics.Discrete_Random
+
+
+-------------------------------------------------------------------------------
+
+--  Input/output capabilities (Ada 2012 LRM, §13.13, A.6, A.7, A.8, A.9,
+--  A.10, A.11, A.12, A.13, A.14, A.15)
+
++R : ADA_SAFETY_EXT_IO :
+   Forbidden_Attributes : Read, Write, Input, Output
+
++R : ADA_SAFETY_EXT_IO :
+   Restrictions : No_Dependence => GNAT.IO,
+                  No_Dependence => Ada.Sequential_IO,
+                  No_Dependence => Ada.Direct_IO,
+                  No_Dependence => Ada.Storage_IO,
+                  No_Dependence => Ada.Complex_Text_IO,
+                  No_Dependence => Ada.Float_Text_IO,
+                  No_Dependence => Ada.Float_Wide_Text_IO,
+                  No_Dependence => Ada.Float_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Integer_Text_IO,
+                  No_Dependence => Ada.Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Complex_Text_IO,
+                  No_Dependence => Ada.Long_Float_Text_IO,
+                  No_Dependence => Ada.Long_Float_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Float_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Integer_Text_IO,
+                  No_Dependence => Ada.Long_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Complex_Text_IO,
+                  No_Dependence => Ada.Long_Long_Float_Text_IO,
+                  No_Dependence => Ada.Long_Long_Float_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Float_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Integer_Text_IO,
+                  No_Dependence => Ada.Long_Long_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Long_Integer_Text_IO,
+                  No_Dependence => Ada.Long_Long_Long_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Long_Long_Long_Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Complex_Text_IO,
+                  No_Dependence => Ada.Short_Float_Text_IO,
+                  No_Dependence => Ada.Short_Float_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Float_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Integer_Text_IO,
+                  No_Dependence => Ada.Short_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Short_Integer_Text_IO,
+                  No_Dependence => Ada.Short_Short_Integer_Wide_Text_IO,
+                  No_Dependence => Ada.Short_Short_Integer_Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Strings.Unbounded.Text_IO,
+                  No_Dependence => Ada.Strings.Wide_Unbounded.Wide_Text_IO,
+                  No_Dependence => Ada.Strings.Wide_Wide_Unbounded.Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Text_IO.Bounded_IO,
+                  No_Dependence => Ada.Text_IO.Complex_Aux,
+                  No_Dependence => Ada.Text_IO.Complex_IO,
+                  No_Dependence => Ada.Text_IO.C_Streams,
+                  No_Dependence => Ada.Text_IO.Decimal_Aux,
+                  No_Dependence => Ada.Text_IO.Decimal_IO,
+                  No_Dependence => Ada.Text_IO.Editing,
+                  No_Dependence => Ada.Text_IO.Enumeration_IO,
+                  No_Dependence => Ada.Text_IO.Fixed_Aux,
+                  No_Dependence => Ada.Text_IO.Fixed_IO,
+                  No_Dependence => Ada.Text_IO.Float_Aux,
+                  No_Dependence => Ada.Text_IO.Float_IO,
+                  No_Dependence => Ada.Text_IO.Integer_Aux,
+                  No_Dependence => Ada.Text_IO.Integer_IO,
+                  No_Dependence => Ada.Text_IO.Modular_IO,
+                  No_Dependence => Ada.Text_IO.Text_Streams,
+                  No_Dependence => Ada.Text_IO.Unbounded_IO,
+                  No_Dependence => Ada.Wide_Text_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Complex_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Complex_IO,
+                  No_Dependence => Ada.Wide_Text_IO.C_Streams,
+                  No_Dependence => Ada.Wide_Text_IO.Decimal_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Decimal_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Editing,
+                  No_Dependence => Ada.Wide_Text_IO.Enumeration_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Fixed_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Fixed_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Float_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Float_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Generic_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Integer_Aux,
+                  No_Dependence => Ada.Wide_Text_IO.Integer_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Modular_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Text_Streams,
+                  No_Dependence => Ada.Wide_Text_IO.Wide_Bounded_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Wide_Unbounded_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Complex_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Complex_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.C_Streams,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Decimal_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Decimal_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Editing,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Enumeration_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Fixed_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Fixed_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Float_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Float_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Generic_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Integer_Aux,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Integer_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Modular_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Text_Streams,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Wide_Wide_Bounded_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Wide_Wide_Unbounded_IO,
+                  No_Dependence => Ada.Streams.Stream_IO,
+                  No_Dependence => Ada.IO_Exceptions,
+                  No_Dependence => Ada.Command_Line
+
+
+-------------------------------------------------------------------------------
+
+--  The Containers library (Ada 2012 LRM, §A.18)
+
++R : ADA_SAFETY_EXT_CONTAINERS :
+   Restrictions : No_Dependence => Ada.Containers,
+                  No_Dependence => Ada.Containers.Bounded_Doubly_Linked_Lists,
+                  No_Dependence => Ada.Containers.Bounded_Hashed_Maps,
+                  No_Dependence => Ada.Containers.Bounded_Hashed_Sets,
+                  No_Dependence => Ada.Containers.Bounded_Holders,
+                  No_Dependence => Ada.Containers.Bounded_Multiway_Trees,
+                  No_Dependence => Ada.Containers.Bounded_Ordered_Maps,
+                  No_Dependence => Ada.Containers.Bounded_Ordered_Sets,
+                  No_Dependence => Ada.Containers.Bounded_Priority_Queues,
+                  No_Dependence => Ada.Containers.Bounded_Synchronized_Queues,
+                  No_Dependence => Ada.Containers.Bounded_Vectors,
+                  No_Dependence => Ada.Containers.Doubly_Linked_Lists,
+                  No_Dependence => Ada.Containers.Formal_Doubly_Linked_Lists,
+                  No_Dependence => Ada.Containers.Formal_Hashed_Maps,
+                  No_Dependence => Ada.Containers.Formal_Hashed_Sets,
+                  No_Dependence => Ada.Containers.Formal_Indefinite_Vectors,
+                  No_Dependence => Ada.Containers.Formal_Ordered_Maps,
+                  No_Dependence => Ada.Containers.Formal_Ordered_Sets,
+                  No_Dependence => Ada.Containers.Formal_Vectors,
+                  No_Dependence => Ada.Containers.Functional_Base,
+                  No_Dependence => Ada.Containers.Functional_Maps,
+                  No_Dependence => Ada.Containers.Functional_Sets,
+                  No_Dependence => Ada.Containers.Functional_Vectors,
+                  No_Dependence => Ada.Containers.Hashed_Maps,
+                  No_Dependence => Ada.Containers.Hashed_Sets,
+                  No_Dependence => Ada.Containers.Hash_Tables,
+                  No_Dependence => Ada.Containers.Hash_Tables.Generic_Bounded_Keys,
+                  No_Dependence => Ada.Containers.Hash_Tables.Generic_Bounded_Operations,
+                  No_Dependence => Ada.Containers.Hash_Tables.Generic_Keys,
+                  No_Dependence => Ada.Containers.Hash_Tables.Generic_Operations,
+                  No_Dependence => Ada.Containers.Helpers,
+                  No_Dependence => Ada.Containers.Indefinite_Doubly_Linked_Lists,
+                  No_Dependence => Ada.Containers.Indefinite_Hashed_Maps,
+                  No_Dependence => Ada.Containers.Indefinite_Hashed_Sets,
+                  No_Dependence => Ada.Containers.Indefinite_Holders,
+                  No_Dependence => Ada.Containers.Indefinite_Multiway_Trees,
+                  No_Dependence => Ada.Containers.Indefinite_Ordered_Maps,
+                  No_Dependence => Ada.Containers.Indefinite_Ordered_Multisets,
+                  No_Dependence => Ada.Containers.Indefinite_Ordered_Sets,
+                  No_Dependence => Ada.Containers.Indefinite_Vectors,
+                  No_Dependence => Ada.Containers.Multiway_Trees,
+                  No_Dependence => Ada.Containers.Ordered_Maps,
+                  No_Dependence => Ada.Containers.Ordered_Multisets,
+                  No_Dependence => Ada.Containers.Ordered_Sets,
+                  No_Dependence => Ada.Containers.Prime_Numbers,
+                  No_Dependence => Ada.Containers.Red_Black_Trees,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Bounded_Keys,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Bounded_Operations,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Bounded_Set_Operations,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Keys,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Operations,
+                  No_Dependence => Ada.Containers.Red_Black_Trees.Generic_Set_Operations,
+                  No_Dependence => Ada.Containers.Restricted_Doubly_Linked_Lists,
+                  No_Dependence => Ada.Containers.Synchronized_Queue_Interfaces,
+                  No_Dependence => Ada.Containers.Unbounded_Priority_Queues,
+                  No_Dependence => Ada.Containers.Unbounded_Synchronized_Queues,
+                  No_Dependence => Ada.Containers.Vectors
+
+
+-------------------------------------------------------------------------------
+
+--  The Distributed Systems Annex (Ada 2012 LRM, Annex E)
+
++R : ADA_SAFETY_EXT_DISTRIBUTED_SYSTEMS :
+   Forbidden_Attributes : Body_Version,
+                          Partition_Id,
+                          Version
+
++R : ADA_SAFETY_EXT_DISTRIBUTED_SYSTEMS :
+   Forbidden_Pragmas : All_Calls_Remote,
+                       Asynchronous,
+                       Remote_Call_Interface,
+                       Remote_Types,
+                       Shared_Passive
+
++R : ADA_SAFETY_EXT_DISTRIBUTED_SYSTEMS :
+   Restrictions : No_Dependence => System.RPC
+
+
+-------------------------------------------------------------------------------
+
+--  The Information Systems Annex (Ada 2012 LRM, Annex F)
+
++R : ADA_SAFETY_EXT_INFO_SYSTEMS :
+   Forbidden_Attributes : Machine_Radix
+--  The Annex describes the setting of Machine_Radix in an attribute definition clause,
+--  i.e., a specific usage, not a general prohibition. (The attribute is defined elsewhere,
+--  in Annex A.)
+
++R : ADA_SAFETY_EXT_INFO_SYSTEMS :
+   Restrictions : No_Dependence => Ada.Decimal,
+                  No_Dependence => Ada.Text_IO.Editing,
+                  No_Dependence => Ada.Wide_Text_IO.Editing,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Editing
+
+
+-------------------------------------------------------------------------------
+
+--  The Numerics Annex (Ada 2012 LRM, Annex G)
+
++R : ADA_SAFETY_EXT_NUMERICS :
+   Restrictions : -- we want to use these internally
+                  -- No_Dependence => Ada.Numerics.Aux,
+                  -- No_Dependence => Ada.Numerics.Aux_Compat,
+                  -- No_Dependence => Ada.Numerics.Aux_Float,
+                  -- No_Dependence => Ada.Numerics.Aux_Generic_Float,
+                  -- No_Dependence => Ada.Numerics.Aux_Linker_Options,
+                  -- No_Dependence => Ada.Numerics.Aux_Long_Float,
+                  -- No_Dependence => Ada.Numerics.Aux_Long_Long_Float,
+                  -- No_Dependence => Ada.Numerics.Aux_Short_Float,
+
+                  No_Dependence => Ada.Numerics.Generic_Complex_Types,
+                  No_Dependence => Ada.Numerics.Complex_Types,
+                  No_Dependence => Ada.Numerics.Short_Complex_Types,
+                  No_Dependence => Ada.Numerics.Long_Complex_Types,
+                  No_Dependence => Ada.Numerics.Long_Long_Complex_Types,
+
+                  No_Dependence => Ada.Numerics.Generic_Complex_Elementary_Functions,
+                  No_Dependence => Ada.Numerics.Complex_Elementary_Functions,
+                  No_Dependence => Ada.Numerics.Short_Complex_Elementary_Functions,
+                  No_Dependence => Ada.Numerics.Long_Complex_Elementary_Functions,
+                  No_Dependence => Ada.Numerics.Long_Long_Complex_Elementary_Functions,
+
+                  No_Dependence => Ada.Numerics.Generic_Real_Arrays,
+                  No_Dependence => Ada.Numerics.Real_Arrays,
+                  --  no Short_Real_Arrays ?
+                  No_Dependence => Ada.Numerics.Long_Real_Arrays,
+                  No_Dependence => Ada.Numerics.Long_Long_Real_Arrays,
+
+                  No_Dependence => Ada.Numerics.Generic_Complex_Arrays,
+                  No_Dependence => Ada.Numerics.Complex_Arrays,
+                  --  no Short_Complex_Arrays ?
+                  No_Dependence => Ada.Numerics.Long_Complex_Arrays,
+                  No_Dependence => Ada.Numerics.Long_Long_Complex_Arrays,
+
+                  No_Dependence => Ada.Text_IO.Complex_IO,
+                  No_Dependence => Ada.Complex_Text_IO,
+                  No_Dependence => Ada.Short_Complex_Text_IO,
+                  No_Dependence => Ada.Long_Complex_Text_IO,
+                  No_Dependence => Ada.Long_Long_Complex_Text_IO,
+                  No_Dependence => Ada.Text_IO.Complex_Aux,
+
+                  No_Dependence => Ada.Wide_Text_IO.Complex_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Complex_Aux,
+
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Complex_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Complex_Aux
+
+
++R : ADA_SAFETY_EXT_NUMERICS :
+   Forbidden_Attributes : Model,
+                          Model_Emin,
+                          Model_Mantissa,
+                          Safe_First,
+                          Safe_Last
+
+
+-------------------------------------------------------------------------------
+
+--  Unbounded strings (the type Unbounded_String in
+--  Ada.Strings.Unbounded, Ada 2012 LRM, §A.4.5)
+
++R : ADA_SAFETY_EXT_UNBOUNDED_STRINGS :
+   Restrictions : No_Dependence => Ada.Strings.Unbounded,
+                  No_Dependence => Ada.Strings.Unbounded.Aux,
+                  No_Dependence => Ada.Strings.Unbounded.Text_IO,
+                  No_Dependence => Ada.Strings.Wide_Unbounded,
+                  No_Dependence => Ada.Strings.Wide_Unbounded.Aux,
+                  No_Dependence => Ada.Strings.Wide_Unbounded.Wide_Text_IO,
+                  No_Dependence => Ada.Strings.Wide_Wide_Unbounded,
+                  No_Dependence => Ada.Strings.Wide_Wide_Unbounded.Aux,
+                  No_Dependence => Ada.Strings.Wide_Wide_Unbounded.Wide_Wide_Text_IO,
+                  No_Dependence => Ada.Text_IO.Unbounded_IO,
+                  No_Dependence => Ada.Wide_Text_IO.Wide_Unbounded_IO,
+                  No_Dependence => Ada.Wide_Wide_Text_IO.Wide_Wide_Unbounded_IO
+
+
+-------------------------------------------------------------------------------
+
+--  The capability set includes an Ada task’s use of secondary stack (if
+--  required) limited to a defined size.
+--
+--  Note:    The recommended minimum value for this size is 4096 bytes.
+--
+
+--  Can't enforce this
+
+
+-------------------------------------------------------------------------------
+
+--  The capability set includes the subset of functionality defined for
+--  the Predefined Language Environment (Ada 2012 LRM, Annex A) based on
+--  the above and the Ravenscar Ada 95 subset profile exclusions.
+
+--  ??? Is "Ada 95" a typo in the standard?  If not, the following is
+--      correct:
+
++R : ADA_SAFETY_EXT_RAVENSCAR :
+   Restrictions : No_Abort_Statements,
+                  No_Dynamic_Attachment,
+                  No_Dynamic_Priorities,
+                  No_Implicit_Heap_Allocations,
+                  No_Local_Protected_Objects,
+                  No_Local_Timing_Events,
+                  No_Protected_Type_Allocators,
+                  No_Relative_Delay,
+                  No_Requeue_Statements,
+                  No_Select_Statements,
+                  No_Specific_Termination_Handlers,
+                  No_Task_Allocators,
+                  No_Task_Hierarchy,
+                  No_Task_Termination,
+                  Simple_Barriers,
+                  Max_Entry_Queue_Length => 1,
+                  Max_Protected_Entries => 1,
+                  Max_Task_Entries => 0,
+                  No_Dependence => Ada.Asynchronous_Task_Control,
+                  No_Dependence => Ada.Calendar,
+                  No_Dependence => Ada.Execution_Time.Group_Budgets,
+                  No_Dependence => Ada.Execution_Time.Timers,
+                  No_Dependence => Ada.Task_Attributes,
+                  No_Dependence => System.Multiprocessors.Dispatching_Domains
+
+--  Restrictions according to Ada 2012 LRM:
+--   Restrictions : No_Abort_Statements,
+--                  No_Dynamic_Attachment,
+--                  No_Dynamic_CPU_Assignment,
+--                  No_Dynamic_Priorities,
+--                  No_Implicit_Heap_Allocations,
+--                  No_Local_Protected_Objects,
+--                  No_Local_Timing_Events,
+--                  No_Protected_Type_Allocators,
+--                  No_Relative_Delay,
+--                  No_Requeue_Statements,
+--                  No_Select_Statements,
+--                  No_Specific_Termination_Handlers,
+--                  No_Task_Allocators,
+--                  No_Task_Hierarchy,
+--                  No_Task_Termination,
+--                  Simple_Barriers,
+--                  Max_Entry_Queue_Length => 1,
+--                  Max_Protected_Entries => 1,
+--                  Max_Task_Entries => 0,
+--                  No_Dependence => Ada.Asynchronous_Task_Control,
+--                  No_Dependence => Ada.Calendar,
+--                  No_Dependence => Ada.Execution_Time.Group_Budgets,
+--                  No_Dependence => Ada.Execution_Time.Timers,
+--                  No_Dependence => Ada.Synchronous_Barriers,
+--                  No_Dependence => Ada.Task_Attributes,
+--                  No_Dependence => System.Multiprocessors.Dispatching_Domains
+
+
+-------------------------------------------------------------------------------
+
+--  The capability set includes the subset of functionality defined for
+--  Interfaces to Other Languages (Ada 2012 LRM, Annex B) as follows:
+--
+--  * Sections B.1 and B.2 are included
+--  * Sections B.3.1 and B.3.2 are excluded
+--  * The remainder of Section B.3 is included
+--
+
++R : ADA_SAFETY_EXT_INTERFACES :
+   Restrictions : No_Dependence => Interfaces.C.Strings,
+                  No_Dependence => Interfaces.C.Pointers
+
+
+-------------------------------------------------------------------------------
+
+--  The capability set includes the subset of functionality defined for
+--  Systems Programming (Ada 2012 LRM, Annex C), based on ISO/IEC TR
+--  15942:2000 including Interrupts support (Ada 2012 LRM, §C.3) limited
+--  to constants and type definitions associated with Ada.Interrupts
+--  with the following modification:
+--
+--  * Dependencies on package Task_Attributes (Ada 2012 LRM, §C.7.2) are
+--    excluded
+--
+
++R : ADA_SAFETY_EXT_NO_TASK_ATTR :
+   Restrictions : No_Dependence => Ada.Task_Attributes
+
+
+-------------------------------------------------------------------------------
+
+--  The capability set includes the subset of functionality defined for
+--  Real-Time Systems (Ada 2012 LRM, Annex D), based on ISO/IEC TR
+--  15942:2000 with the following restrictions:
+--
+--  * D.2.1 The Task Dispatching Model: Ada.Dispatching.Yield is
+--    excluded
+--  * D.2.2 Task Dispatching Pragmas: pragma
+--    Priority_Specific_Dispatching is excluded
+--  * D.2.4 Non-Preemptive Dispatching: Excluded
+--  * D.2.5 Round Robin Dispatching: Excluded
+--  * D.2.6 Earliest Deadline First Dispatching: Excluded
+--  * D.4 Entry Queuing Policies: Excluded (since there are no entry
+--    queues)
+--  * D.5 Dynamic Priorities: Excluded
+--  * D.5.1 Dynamic Priorities for Tasks: Excluded
+--  * D.5.2 Dynamic Priorities for Protected Objects: Excluded
+--  * D.6 Preemptive Abort: Excluded
+--  * D.10 Synchronous Task Control: Ada.Synchronous_Task_Control.EDF
+--    is excluded
+--  * D.10.1 Synchronous Barriers: Excluded
+--  * D.11 Asynchronous Task Control: Excluded
+--  * D.12 Other Optimizations and Determinism Rules: Excluded
+--    Note: In general, optimizations are outside the scope of this
+--          Technical Standard.
+--  * D.14 Execution Time: Excluded
+--  * D.15 Timing Events: Excluded
+--  * D.16 Multiprocessor Implementation: Excluded
+--
+
+--  ???  how to disallow procedure Ada.Dispatching.Yield
+--  ???  How to disallow non-preemptive dispatching
+--       (policy Non_Preemptive_FIFO_Within_Priorities)
+--  ???  How to disallow round robin dispatching
+--       (policy Round_Robin_Within_Priorities)
+--  ???  How to disallow earliest deadline first dispatching
+--       (policy EDF_Across_Priorities)
+--  ???  How to forbid assignment to a protected object priority
+--       attribute P'Priority
+--  ???  Ravenscar disallows abort statements, so, talking about
+--       preemptive abort seems moot?
+--  ???  D.12 places requirements on compiler implementations, I don't
+--       see how this relates to UoCs
+
++R : ADA_SAFETY_EXT_REAL_TIME :
+   Forbidden_Pragmas : Priority_Specific_Dispatching,
+                       Queuing_Policy
+
++R : ADA_SAFETY_EXT_REAL_TIME :
+   Restrictions : No_Dependence => Ada.Calendar,
+                  No_Dependence => Ada.Dispatching.Non_Preemptive,
+                  No_Dependence => Ada.Dispatching.Round_Robin,
+                  No_Dependence => Ada.Dispatching.EDF,
+                  No_Dependence => Ada.Dynamic_Priorities,
+                  No_Dependence => Ada.Synchronous_Task_Control.EDF,
+                  No_Dependence => Ada.Synchronous_Barriers,
+                  No_Dependence => Ada.Asynchronous_Task_Control,
+                  No_Dependence => Ada.Execution_Time,
+                  No_Dependence => Ada.Execution_Time.Timers,
+                  No_Dependence => Ada.Execution_Time.Group_Budgets,
+                  No_Dependence => Ada.Execution_Time.Interrupts,
+                  No_Dependence => Ada.Real_Time.Timing_Events,
+                  No_Dependence => System.Multiprocessors,
+                  No_Dependence => System.Multiprocessors.Dispatching_Domains,
+                  No_Relative_Delay
+
+
+-------------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+project FACE_Analysis is
+
+   type Capability_Sets is ("general", "safety_extended", "safety_base");
+
+   Capability_Set : Capability_Sets := external ("Capability_Set", "safety_extended");
+
+   for Object_Dir use "gnatcheck_results/rts-" & Capability_Set;
+
+   RTL_Prefix := "rts-face-gsl-";
+
+   for Source_Dirs use (RTL_Prefix & Capability_Set & "/gnat");
+
+   type Language_Versions is ("Ada95", "Ada2012");
+
+   Version : Language_Versions := "Ada2012";  -- external ("Version", "Ada2012");
+
+   package Check is
+      case Capability_Set is
+
+         when "general" =>
+            for Default_Switches ("ada") use (
+               "-a",
+               "-o", "general-" & Version & "-results.txt",
+               "-rules", "-from=rules/general-" & Version & ".txt");
+
+         when "safety_base" =>
+            for Default_Switches ("ada") use (
+               "-a",
+               "-o", "safety_base-" & Version & "-results.txt",
+               "-rules", "-from=rules/safety_base-" & Version & ".txt");
+
+         when "safety_extended" =>
+            for Default_Switches ("ada") use (
+               "-a",
+               "-o", "safety_extended-" & Version & "-results.txt",
+               "-rules", "-from=rules/safety_extended-" & Version & ".txt");
+
+      end case;
+   end Check;
+
+end FACE_Analysis;
