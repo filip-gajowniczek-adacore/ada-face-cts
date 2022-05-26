@@ -14,10 +14,13 @@
 --
 pragma Restrictions (No_Use_Of_Entity => Wide_Character);
 pragma Restrictions (No_Use_Of_Entity => Wide_Wide_Character);
+
 pragma Restrictions (No_Use_Of_Entity => Wide_String);
 pragma Restrictions (No_Use_Of_Entity => Wide_Wide_String);
 
 --  These restrictions are specific to this capability set:
 --
 pragma Restrictions (No_Exception_Handlers);
---  no explicit exception handlers and no exception propagation 
+--  no explicit exception handlers and no exception propagation
+
+pragma Restrictions (No_Dependence => System.Multiprocessors);

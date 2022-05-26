@@ -1,6 +1,6 @@
 project Client is
 
-   for Main use ("demo");
+   for Main use ("demo", "extended_demo");
 
    for Source_Dirs use ("src");
    

@@ -20,7 +20,7 @@ linker {
   exe: "gcc"
   flags: "-lgnat -lgnarl -nostartfiles"
   output_flag: "-o"
-  paths: "/home/face/workspace/Ada_GSL/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib"
+  paths: "/home/face/workspace/cm/face-conformance-tools/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib"
 }
 archiver {
   exe: "ar"

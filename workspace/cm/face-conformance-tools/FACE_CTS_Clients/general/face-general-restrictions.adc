@@ -1,7 +1,13 @@
 --  A configurations pragmas file for the FACE General capability set
 
+--  These restrictions are applied automatically in package System:
+--
+--     pragma Restrictions (Max_Asynchronous_Select_Nesting => 0);
+
+--  These pragmas are universal, applied in all capability sets:
+--
 pragma Restrictions (No_Use_Of_Entity => Wide_Character);
 pragma Restrictions (No_Use_Of_Entity => Wide_Wide_Character);
+
 pragma Restrictions (No_Use_Of_Entity => Wide_String);
 pragma Restrictions (No_Use_Of_Entity => Wide_Wide_String);
-
