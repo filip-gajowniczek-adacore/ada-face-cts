@@ -16,8 +16,8 @@ pcs {
   segment_objects_config {
     segment_object_type: SEGMENT_OBJECTS_PROVIDED
     provided_objects_filenames: "../workspace/sample-safetyext/safety_extended/objs/demo.o"
-    provided_objects_filenames: "../workspace/cm/face-conformance-tools/FACE_CTS_Clients/safety_extended/objs/protected_objects.o"
-    provided_objects_filenames: "../workspace/cm/face-conformance-tools/FACE_CTS_Clients/safety_extended/objs/tasks.o"
+    provided_objects_filenames: "../workspace/sample-safetyext/safety_extended/objs/protected_objects.o"
+    provided_objects_filenames: "../workspace/sample-safetyext/safety_extended/objs/tasks.o"
     provided_objects_filenames: "../workspace/sample-safetyext/injectable_interfaces/libada_injectables.a"
     build_conformance_objects_config {
     }
