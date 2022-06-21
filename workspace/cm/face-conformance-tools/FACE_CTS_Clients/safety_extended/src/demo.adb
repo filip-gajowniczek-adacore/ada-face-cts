@@ -36,6 +36,10 @@ procedure Demo is
    --         No_Use_Of_Entity at ...\face_restrictions.adc:1
    --  error: "Wide_Space" not declared in "Strings"
 
+   function getchar return Integer
+     with Import => True, Convention => C;
+   C : Integer := getchar;
+
 begin
    Protected_Objects.PO.E;
    Tasks.Start;
