@@ -8,8 +8,6 @@ ARG CTS_ZIP_FILENAME="Archive_5.zip"
 ARG CTS_INSTALL_DIR="FACEConformanceTestSuite"
 ARG CTS_PATCH_FILENAME="cts.diff"
 
-ARG FIREFOX_URL="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
-
 ARG GNAT_FILENAME="gnat-gpl-2017-x86_64-linux-bin.tar.gz"
 ARG GNAT_INSTALL_DIR="/opt/GNAT/2017-GPL"
 ARG GNAT_PROFILE_SNIPPET_FILENAME="gnat.sh"
@@ -75,7 +73,6 @@ FROM registry.access.redhat.com/ubi8 AS CTS_final
 ARG ANT_UNPACK_DIRNAME
 ARG ANT_PROFILE_SNIPPET_FILENAME
 ARG CTS_INSTALL_DIR
-ARG FIREFOX_URL
 ARG GNAT_INSTALL_DIR
 ARG GNAT_PROFILE_SNIPPET_FILENAME
 ARG JDK_PROFILE_SNIPPET_FILENAME
@@ -88,8 +85,7 @@ ARG JDK_INSTALL_DIR
 #   gcc g++: CTS 3.1.2 dependencies (excluding GNAT)
 #   make: CTS 3.1.2 dependency
 #   gtk3 alsa-lib libX11-xcb mesa-libGL: CTS 3.1.2 A/V dependencies
-#   tar bzip2 wget: Firefox installer dependencies
-#   dejavu-fonts-common dejavu-sans-fonts dejavu-serif-fonts xorg-x11-fonts-Type1: Firefox dependencies
+#   dejavu-fonts-common dejavu-sans-fonts dejavu-serif-fonts xorg-x11-fonts-Type1: X11 dependencies
 #
 RUN dnf install -y \
         python2 \

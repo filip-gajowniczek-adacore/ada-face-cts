@@ -8,7 +8,7 @@ Repository containing the environment for Ada FACE UoC conformance testing and a
 # Building the Containerized Application
 Execute the build command:
 ```
-sudo docker build -t rh_ubi-8-cts-3.1.2-base .
+sudo docker build -t rh_ubi-8-cts-3.1.2 .
 ```
 
 # Running the Containerized Demo
@@ -28,7 +28,7 @@ sudo docker run \
     --hostname $HOSTNAME \
     --env DISPLAY=$DISPLAY \
     --user face \
-    -it rh_ubi-8-cts-3.1.2-base /bin/bash -il
+    -it rh_ubi-8-cts-3.1.2 /bin/bash -il
 ```
 ## Execute the demo
 
