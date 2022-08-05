@@ -1,22 +1,4 @@
 --------------------------------------------------------------------------------
-# Persistent directory on host that can be bound to the container.
-host_workspace_dir="/home/lee/USA/FACE/2022-05-02T191758Z.demo/3-demo/persistent_workspace"
-
-# Create a container based on the image, wire in persistent directory, 
-# hook up X11 gear, and run as user "face".
-sudo docker run \
-    --mount "type=bind,source=$host_workspace_dir/workspace,destination=/home/face/workspace" \
-    --mount "type=bind,source=$host_workspace_dir/dot-java,destination=/home/face/.java" \
-    --mount "type=bind,source=$host_workspace_dir/CTSProjects,destination=/home/face/CTSProjects" \
-    --mount "type=bind,source=$host_workspace_dir/FACE_CTS-toolchain-configuration_files,destination=/home/face/FACEConformanceTestSuite/toolchain/configuration_files" \
-    --volume /tmp/.X11-unix:/tmp/.X11-unix \
-    --volume $HOME/.Xauthority:/home/face/.Xauthority \
-    --hostname $HOSTNAME \
-    --env DISPLAY=$DISPLAY \
-    --user face \
-    -it rh_ubi-8-cts-3.1.2-devel /bin/bash -il
-
---------------------------------------------------------------------------------
 
 cd ~/workspace/sample-safetyext/c_vs_ada
 
@@ -79,7 +61,8 @@ gprbuild -j0 -p -P client.gpr
 # Lots of boobytraps prevening the code from b!  Adjust the demo code to remove them.
 
 # @TODO: Add GNAT Studio to demo. Use it to build project, and comment out offending lines
-
+Modify the demo project to comment out the usage of disallowed Ada language features
+Comment out lines 1, 5, 7, 19, 28-29, 34
 
 # Our main program contains a pragma Import that allows
 # the getchar() function to be used within our Ada program.
@@ -103,7 +86,7 @@ cd ~/FACEConformanceTestSuite
 ./run_CTS_GUI.py
 
 # @TODO: Address OS Mismatch warning
-Create Ada toolchain configuration file
+Review the Ada toolchain configuration file
  - General
   - Language: Ada
   - Segment: PCS
@@ -131,7 +114,7 @@ Save As Ada_NonOSS_SafetyExt-AdaGSL.tcfg
 Verify toolchain configuration using Check Configuration button
 
 # @TODO: Address OS Mismatch warning
-Create project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
+Review the Ada project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
  - General
   - Segment: PCS
   - Language: Ada
@@ -149,8 +132,7 @@ Create project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
  - Objects/Libraries # @TODO: Add with descriptions to use in explanation
 Build GSL using Generate Gold Standard Libraries button
 
-Create C toolchain configuration file
- - see /home/lee/FACE/2021-08-05T211621Z.docker/workspace-ubuntu-20.04-demo.2021-09-15/FACECTS-toolchain-configuration_files/C-SafetyExt-nonOSS.tcfg
+Review the C toolchain configuration file (C-SafetyExt-nonOSS.tcfg)
  - General
   - Language: C
   - Segment Under Test: PCS
@@ -343,8 +325,9 @@ Library that the CTS is using to test our UoC.
 
 # @TODO: Use GNAT Studio to comment out the import of getchar
 cd ~/workspace/sample-safetyext/safety_extended/
-vi src/demo.adb
+vi src/demo.adb # Comment out lines 39-41
 gprbuild -j0 -P client.gpr
 cd ~/FACEConformanceTestSuite
 ./run_CTS_GUI.py
 
+Re-run the conformance test to show it now passes
