@@ -1,0 +1,41 @@
+--- face_conformance_app/toolchain.py.orig	2022-01-06 01:58:54.000000000 -0500
++++ face_conformance_app/toolchain.py	2022-05-03 11:33:45.000000000 -0400
+@@ -1810,14 +1810,14 @@
+     non_oss_linker_flags = {
+         language_config.Language.C: '-nodefaultlibs -nostartfiles -O0',
+         language_config.Language.CPP: '-nodefaultlibs -nostartfiles',
+-        language_config.Language.Ada: '-lgnat-{version} -nostartfiles'.format(version = common_tools.gnat_version()), # CR-758: add gnat version and add to lib name for linux
++        language_config.Language.Ada: '-L/opt/GNAT/2017-GPL/lib/gcc/x86_64-pc-linux-gnu/6.3.1/rts-native/adalib -lgnat -nostartfiles',
+         language_config.Language.Java: ''
+     }
+     
+     oss_linker_flags = {
+         language_config.Language.C: '-lm -lrt -lpthread',	# CR-758: removed '-ldl -lcrypt',
+         language_config.Language.CPP: '',					# CR-758: removed '-lm',
+-        language_config.Language.Ada: '-lgnat-{version} -nostartfiles'.format(version = common_tools.gnat_version()), # CR-758: add gnat version and add to lib name for linux
++        language_config.Language.Ada: '-L/opt/GNAT/2017-GPL/lib/gcc/x86_64-pc-linux-gnu/6.3.1/rts-native/adalib -lgnat -nostartfiles',
+         language_config.Language.Java: ''
+     }
+ 
+@@ -1874,8 +1874,8 @@
+         oss_linker_flags[language_config.Language.CPP] = '-lmingw32 -lmsvcrt-os' # CR-758: changed from '-lstdc++ -lmingwex -lmsvcrt -lmingw32 -lmsvcrt-os -lmsvcr120'
+         oss_linker_paths[language_config.Language.CPP] = [constants.MINGW_LIB_PATH_WIN ] # CR-758: changed from oss_linker_paths[language_config.Language.CPP] = [GCC_PATH, constants.MINGW_LIB_PATH_WIN ]
+         #Ada
+-        non_oss_linker_flags[language_config.Language.Ada] = '-lgnat -lgcc_s  -nostartfiles'
+-        oss_linker_flags[language_config.Language.Ada] = '-lgnat -lgcc_s  -nostartfiles'
++        non_oss_linker_flags[language_config.Language.Ada] = '-L/opt/GNAT/2017-GPL/lib/gcc/x86_64-pc-linux-gnu/6.3.1/rts-native/adalib -lgnat -lgcc_s  -nostartfiles'
++        oss_linker_flags[language_config.Language.Ada] = '-L/opt/GNAT/2017-GPL/lib/gcc/x86_64-pc-linux-gnu/6.3.1/rts-native/adalib -lgnat -lgcc_s  -nostartfiles'
+         non_oss_linker_paths[language_config.Language.Ada] = GCC_PATH, (GCC_PATH + '\\adalib')
+         oss_linker_paths[language_config.Language.Ada] = GCC_PATH, (GCC_PATH + '\\adalib')
+         
+@@ -1958,6 +1958,10 @@
+                 os.path.join('/usr', 'java', 'jdk{}'.format(common_tools.java_version()), 'jre', 'bin'),
+                 os.path.join('/usr', 'java', 'jdk{}'.format(common_tools.java_version()), 'bin')
+                 ]
++        elif l == language_config.Language.Ada:
++            linux_paths[l] = [
++                os.path.join('/opt', 'GNAT', '2017-GPL', 'bin'),
++            ]            
+         else:            
+             linux_paths[l] = [
+                 os.path.join('/usr', 'bin'),  # Yes I know these aren't necessary,
