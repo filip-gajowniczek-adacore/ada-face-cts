@@ -1,0 +1,333 @@
+--------------------------------------------------------------------------------
+
+cd ~/workspace/sample-safetyext/c_vs_ada
+
+# C
+cat sample.c
+gcc -c sample.c
+nm -u sample.o
+
+The C language is very simple.  Language constructs are low-level and
+pretty much the only way for an undefined symbol to show up in the
+compiled object code is if there's an explicit call in the source code.
+
+# Ada
+cat empty_task.adb
+gcc -c empty_task.adb
+nm -u empty_task.o
+
+The Ada language is a lot more powerful than C.  There are no explicit
+calls to anything in the source code, but the compiled object code
+contains plenty of calls to routines in the Ada RTL.
+
+Because there is no complete, portable, and sound reverse-mapping of
+these symbols to language feature usage, there is no way to perform
+a link-time conformance test.
+
+--------------------------------------------------------------------------------
+
+So here is our system in action.  I've set up a dedicated environment
+here using a Docker container.  The container holds:
+
+# Red Hat Universal Base Image 8
+cat /etc/redhat-release
+
+# The system GCC for C and C++ in standard locations
+ls /usr/bin/{gcc,g++}
+
+# GNAT Community 2017 installed in /opt/GNAT
+gnatls -v
+
+# The FACE CTS, version 3.1.2
+ls ~/FACEConformanceTestSuite/
+
+# Sources for our stubbed Ada runtime library
+ls ~/workspace/sample-safetyext/rts-face-gsl-safety_extended/
+
+# Sample source code for the demonstration
+ls ~/workspace/sample-safetyext/safety_extended/
+ls ~/workspace/sample-safetyext/safety_extended/src
+
+--------------------------------------------------------------------------------
+
+# Build our custom stubbed Ada language runtime library.
+cd ~/workspace/sample-safetyext/rts-face-gsl-safety_extended/
+gprbuild -j0 -p -P face_gsl_runtime_build.gpr
+
+# Build our application.
+cd ~/workspace/sample-safetyext/safety_extended/
+gprbuild -j0 -p -P client.gpr
+
+# Lots of boobytraps prevening the code from b!  Adjust the demo code to remove them.
+
+# @TODO: Add GNAT Studio to demo. Use it to build project, and comment out offending lines
+Modify the demo project to comment out the usage of disallowed Ada language features
+Comment out lines 1, 5, 7, 19, 28-29, 34
+
+# Our main program contains a pragma Import that allows
+# the getchar() function to be used within our Ada program.
+cat src/demo.adb
+
+# The Ada runtime is not responsible for providing functionality for
+# non-Ada facilities, so it shouldn't be responsible for checking
+# non-Ada facilities.  So, it's not possible to check for FACE
+# conformant usage of the getchar() symbol using the Ada runtime
+# library.
+
+# At this point, we can see that by using our stubbed runtime library
+# and with a few Restrictions pragmas, much of the checking for FACE
+# conformant usage of Ada can happen at compile time.  But we still
+# need the CTS to make sure our code implements required interfaces,
+# and we need the CTS to check for FACE conformant usage of POSIX
+# interfaces.
+
+# So, we'll bring up the CTS.
+cd ~/FACEConformanceTestSuite
+./run_CTS_GUI.py
+
+# @TODO: Address OS Mismatch warning
+Review the Ada toolchain configuration file
+ - General
+  - Language: Ada
+  - Segment: PCS
+  - OSS Profiles: Safety Extended
+  - PATH Additions: /opt/GNAT/2017-GPL/bin
+ - File Extensions
+  - header: ads
+  - source: adb
+  - library: a
+  - object: o
+ - Tools
+  - Compiler: Executable:gcc, Flags:-c , Output Flag:-o
+  - Linker: 
+    -Executable: gcc
+    -Flags: -lgnat -lgnarl -nostartfiles
+    -Output Flag: -o
+    -Library Paths: /home/face/workspace/sample-safetyext/rts-face-gsl-safety_extended/adalib
+  - Archiver: 
+    -Executable: ar
+    -Flags: cr
+  - Binder:
+    -Executable: gnatbind
+  - Toolchain Template File: /home/face/FACEConformanceTestSuite/datafiles/stringtemplate/defaultAdaToolchainTemplates.stg
+Save As Ada_NonOSS_SafetyExt-AdaGSL.tcfg
+Verify toolchain configuration using Check Configuration button
+
+# @TODO: Address OS Mismatch warning
+Review the Ada project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
+ - General
+  - Segment: PCS
+  - Language: Ada
+  - Profile: Safety Extended
+  - Partition: POSIX
+  - Use Multi-Process APIs: Selected
+  - Toolchain Configuration File: ../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt-AdaGSL.tcfg
+  - UoP Name: UoP1
+ - Data Model
+  - SDM (Shared Data Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+  - USM (UoP Supplied Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+  - UoP: "UoP1"
+ - Gold Standard Libraries
+  - GSL Directory: GSL-Ada_NonOSS_PCS_SafetyExt
+ - Objects/Libraries # @TODO: Add with descriptions to use in explanation
+Build GSL using Generate Gold Standard Libraries button
+
+Review the C toolchain configuration file (C-SafetyExt-nonOSS.tcfg)
+ - General
+  - Language: C
+  - Segment Under Test: PCS
+  - OSS Profiles: Safety Extended
+  - PATH Additions: /usr/bin
+ - File Extensions
+  - header: h
+  - source: c
+  - library: a
+  - object: o
+ - Tools
+  - Compiler:
+   - Executable: gcc
+   - Flags: -nostdinc -D_XOPEN_SOURCE=700 -D__USE_SVID -D_GNU_SOURCE -DFACE_SAFETY_EXTENDED_PROFILE -std=c99 -c -fno-builtin
+   - Output Flag: -o
+  - Linker
+   - Executable: gcc
+   - Flags: -nodefaultlibs -nostartfiles -O0
+   - Output Flag: -o
+  - Archiver:
+   - Executable: ar
+   - Flags: cr
+  - Toolchain Template File: /home/face/FACEConformanceTestSuite/datafiles/stringtemplate/defaultC++CToolchainTemplates.stg
+ - Compiler Specific
+  - NULL Definition:
+"""
+#ifdef __cplusplus
+  // Define NULL for C++ as the constant 0 with no specific type.
+  #define FACE_NULL 0
+#else
+  // Define NULL for C as 0 cast to a void pointer.
+  #define FACE_NULL ( (void*) 0 )
+#endif
+"""
+  -Allowed Definition 0 (After adding with + button)
+   - Header Code:
+"""
+/*
+ *   Profile specific MACROs
+ */
+#if !defined (FACE_GENERAL_PURPOSE_PROFILE) && !defined(FACE_SAFETY_EXTENDED_PROFILE) && !defined(FACE_SAFETY_BASE_PROFILE) && !defined(FACE_SECURITY_PROFILE)
+#error "No FACE profile defined"
+#endif
+
+#if defined(__GNUC__)
+
+/*
+*   Function stub for _start() to compensate for -nodefaultlibs -nostartfiles. 
+*   Without the stub, linker gives "warning: cannot find entry symbol _start; 
+*   defaulting to 0000000000400144"
+*/
+void _start() {}
+
+/*
+ * This is invoked by GCC when stack checking is enabled.
+ */
+void __stack_chk_fail(void)
+{
+}
+
+  #if defined(__CYGWIN__) || defined(__MINGW32__) || defined(__MINGW64__)
+    /*
+     *  This symbol is implicitly generated by GCC on some platforms.
+     *  It initializes the run-time and may invoke global constructors.
+     */
+     void * __main();
+  #endif
+
+/*
+ * Integer Arithmetic Functions in GCC low-level runtime library that a target processor cannot perform directly.
+ * c99 - always allows long long
+ */
+#if defined(ALLOWABLE_USE_OF_LONG_LONG)
+// GCC Internals - 4.1.1 Arithmetic Functions
+void __lshrdi3() { }
+void __ashrdi3() { }
+void __ashldi3() { }
+void __muldi3() { }
+void __divdi3() { }
+void __moddi3() { }
+void __udivdi3() { }
+void __umoddi3() { }
+
+// GCC Internals - 4.1.3 Trapping Arithmetic Functions
+void __addvdi3() { }
+void __subvdi3() { }
+void __mulvdi3() { }
+void __negdi2() { }
+void __udivmoddi4() { }
+#endif /*ALLOWABLE_USE_OF_LONG_LONG*/
+
+#else
+  #error "Compiler is unknown. Please add Compiler Specific support."
+#endif  /* __GNUC__ */
+
+"""
+ - Source Code:
+"""
+#if defined(__GNUC__)
+  #if defined(__CYGWIN__) || defined(__MINGW32__) || defined(__MINGW64__)
+    void * __main() { }
+  #endif
+#endif  /* __GNUC__ */
+"""
+Save As C_NonOSS_SafetyExt.tcfg
+Verify toolchain configuration using Check Configuration button 
+
+Create project configuration file (C_NonOSS_PCS_SafetyExt.pcfg)
+- General
+ - Segment: PCS
+ - Language: C
+ - Profile: Safety Extended
+ - Partition: POSIX
+ - Use Multi-Process APIs: checked
+ - Toolchain Configuration File: ../FACEConformanceTestSuite/toolchain/configuration_files/C_NonOSS_SafetyExt.tcfg
+ - UoP Name: UoP1
+- Data Model
+ - SDM (Shared Data Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+ - USM (UoP Supplied Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+ - UoP: "UoP1"
+- Gold Standard Libraries:
+ - GSL Directory: GSL-C_NonOSS_PCS_SafetyExt
+Build GSL using Generate Gold Standard Libraries button
+
+--------------------------------------------------------------------------------
+cd ~/workspace/sample-safetyext/injectable_interfaces/
+./configure.sh /home/face/FACEConformanceTestSuite /home/face/CTSProjects/GSL-Ada_NonOSS_PCS_SafetyExt
+make clean
+make
+--------------------------------------------------------------------------------
+cd ~/workspace/sample-safetyext/compiler_intrinsics/
+make clean
+make
+--------------------------------------------------------------------------------
+
+Ada conformance test
+
+Modify the Ada_NonOSS_PCS_SafetyExt project using the CTS to add:
+
+ - three .o files that comprise our sample code (not including binder file)
+ - one .a file that contains our injectable interface implementations
+
+Under Objects/Libraries select Provide Segment Objects/Libraries and add the followings Objs/Libs:
+
+ - "../workspace/sample_code/safety_extended/objs/demo.o"
+ - "../workspace/sample_code/safety_extended/objs/protected_objects.o"
+ - "../workspace/sample_code/safety_extended/objs/tasks.o"
+ - "../workspace/sample_code/injectable_interfaces/libada_injectables.a"
+
+Execute conformance testing using the Test UoP Conformance Only button.
+
+The CTS, via the tool configuration file, performs the following:
+
+ - creates and compiles Gold Standard Libraries using the system Ada RTL
+ - links everything using our custom stubbed Ada RTL
+
+Note that everything passes, even though we have a call to getchar(). 
+To check for violations of C API conformance, another step is necessary.
+
+--------------------------------------------------------------------------------
+
+C conformance test
+
+Modify the C_NonOSS_PCS_SafetyExt project using the CTS.
+Under Objects/Libraries select Provide Segment Objects/Libraries and add the followings Objs/Libs:
+
+ - three .o files that comprise our sample code
+  - "../workspace/sample_code/safety_extended/objs/demo.o"
+  - "../workspace/sample_code/safety_extended/objs/protected_objects.o"
+  - "../workspace/sample_code/safety_extended/objs/tasks.o"
+ - one .a file that contains our injectable interface implementations
+   - "../workspace/sample_code/injectable_interfaces/libada_injectables.a"
+ - two .a files that comprise our custom stubbed Ada RTL
+  - "../workspace/sample-safetyext/rts-face-gsl-safety_extended/adalib/libgnat.a"
+  - "../workspace/sample-safetyext/rts-face-gsl-safety_extended/adalib/libgnarl.a"
+ - one .o file that contains stubbed GCC compiler intrinsic functions
+  - "../workspace/sample-safetyext/compiler_intrinsics/face_gcc_symbols.o"
+
+The CTS performs a full set of tests as if the UoC were written in C. 
+Because we are using the stubbed Ada runtime library, all the
+dependencies on the Ada side are taken care of, and the Ada runtime does
+not create any more dependencies on C APIs.  The only remaining
+interface references would come from calls made in C code or from
+explicit pragma Imports in the Ada code.
+
+The C test fails because of the undefined reference to getchar(). 
+getchar() is not a valid symbol that can be used in the FACE safety
+extended profile, and so it does not show up in the C Gold Standard
+Library that the CTS is using to test our UoC.
+
+# @TODO: Use GNAT Studio to comment out the import of getchar
+cd ~/workspace/sample-safetyext/safety_extended/
+vi src/demo.adb # Comment out lines 39-41
+gprbuild -j0 -P client.gpr
+cd ~/FACEConformanceTestSuite
+./run_CTS_GUI.py
+
+Re-run the conformance test to show it now passes

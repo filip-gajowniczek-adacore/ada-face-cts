@@ -3,7 +3,7 @@
 all: libada_injectables.a
 
 ada_build:
-	gprbuild -P injectable_interfaces.gpr || gnatmake -P injectable_interfaces.gpr
+	gprbuild -P injectable_interfaces.gpr -p || gnatmake -P injectable_interfaces.gpr
 
 libada_injectables.a: ada_build
 	rm -f $@

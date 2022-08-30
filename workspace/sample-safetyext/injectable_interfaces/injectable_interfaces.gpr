@@ -1,4 +1,0 @@
---  This GNAT project provides all the symbols necessary to satisfy
---  dependencies for injectable interface implementations.
-
---  Use configure.sh to properly set up this project.
