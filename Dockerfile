@@ -42,7 +42,7 @@ COPY "$CTS_PATCH_FILENAME" /tmp/
 RUN mkdir "/tmp/$CTS_INSTALL_DIR" \
     && cd "/tmp/$CTS_INSTALL_DIR" \
     && unzip -q /tmp/Archive_5.zip \
-    && patch -p0 < "/tmp/$CTS_PATCH_FILENAME" \
+    # && patch -p0 < "/tmp/$CTS_PATCH_FILENAME" \
     && rm -rf "/tmp/$CTS_INSTALL_DIR/__MACOSX" "/tmp/$CTS_ZIP_FILENAME"
 
 ################################################################################
@@ -67,7 +67,7 @@ RUN microdnf install tar bzip2 \
     && wget --content-disposition https://dlcdn.apache.org//ant/binaries/$ANT_BZ2_FILENAME \
     && tar xjf "$ANT_BZ2_FILENAME"
 
-# Add dependencies to OpenJDK image by copying only what is needed from previously built stages
+# Add dependencies universal base image by copying only what is needed from previously built stages
 ################################################################################
 FROM registry.access.redhat.com/ubi8 AS CTS_final
 ARG ANT_UNPACK_DIRNAME
@@ -129,7 +129,7 @@ ARG CTS_DIR="/home/face/FACEConformanceTestSuite"
 # We need to run ./sample/testUtility.py as the face user with a login
 # shell so that all the /etc/profile.d stuff is sourced in.
 RUN cd "$CTS_DIR/sample" \
-    && runuser -u face -- /usr/bin/bash --login -c "/usr/bin/python testUtility.py"
+    && runuser -u face -- /usr/bin/bash --login -c "/usr/bin/python testUtility.py -a -c --safety_ext -pcs -g"
 
 # Additional useful gear for development.  Also, remove packages that
 # interfere with X11 over a network (including sockets to communicate
@@ -138,3 +138,25 @@ RUN dnf install -y vim zip unzip less gdb ncurses \
     && dnf remove -y mesa-libGL \
     && dnf autoremove -y \
     && dnf clean all
+
+
+# Add AdaCore add-on tools to the base CTS environment
+################################################################################
+FROM CTS_final AS AdaCore_FACE_Env
+
+ARG GNAT_STUDIO_INSTALL_ARCHIVE
+
+ENV TERM=dumb
+
+# GNAT Studio
+COPY "$GNAT_STUDIO_INSTALL_ARCHIVE" /tmp/
+
+RUN cd /tmp \
+    && tar xzf "$GNAT_STUDIO_INSTALL_ARCHIVE" \
+    && cd /tmp/gnatstudio*bin \
+    && ./doinstall /opt/gnatstudio
+
+# Add command to put GNAT Studio & GNAT GPL into PATH environment variable 
+ENV PATH=/opt/gnatstudio/bin:$GNAT_INSTALL_DIR/bin:$PATH
+
+# @TODO: Add GNATcheck for FACE

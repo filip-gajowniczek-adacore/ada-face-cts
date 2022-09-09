@@ -1,0 +1,17 @@
+//! Source file: FACE/DM/DataModelName/idlFixed1.idl
+
+#ifndef FACE_DM_DATAMODELNAME_IDLFIXED1
+#define FACE_DM_DATAMODELNAME_IDLFIXED1
+
+module FACE
+{
+    module DM
+    {
+        module DataModelName
+        {
+            typedef fixed<3, 5> idlFixed1;
+        };
+    };
+};
+
+#endif // FACE_DM_DATAMODELNAME_IDLFIXED1

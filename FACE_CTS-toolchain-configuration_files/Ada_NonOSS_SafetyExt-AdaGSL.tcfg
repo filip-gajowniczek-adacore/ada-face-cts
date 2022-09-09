@@ -4,7 +4,7 @@ toolchain_segment_type: NON_OSS_TOOLCHAIN
 profiles: PROF_SAFETY_EXT
 toolchain_specific_config {
 }
-operating_system: "Sys: [Linux], Release: [5.10.0-0.bpo.12-amd64], Version: [#1 SMP Debian 5.10.103-1~bpo10+1 (2022-03-08)], Arch: [64 bits]"
+operating_system: "Sys: [Linux], Release: [5.15.0-46-generic], Version: [#49~20.04.1-Ubuntu SMP Thu Aug 4 19:15:44 UTC 2022], Arch: [64 bits]"
 file_extensions {
   obj: "o"
   src: "adb"
@@ -18,9 +18,9 @@ compiler {
 }
 linker {
   exe: "gcc"
-  flags: "-lgnat -lgnarl -nostartfiles"
+  flags: "-nodefaultlibs -nostartfiles -lgnat -lgnarl -lgcc_stub /home/face/workspace/AdaUoC/FACE-conformance-testing/GSL/GSL-C_NonOSS_PCS_SafetyExt/posixSafetyextLimitedGoldLib.a"
   output_flag: "-o"
-  paths: "/home/face/workspace/cm/face-conformance-tools/FACE_Gold_RTLs/rts-face-gsl-safety_extended/adalib"
+  paths: "/home/face/adacore-face-conformance-tools/FACE_Stubbed_RTLs/rts-face-safety_extended-stub/adalib"
 }
 archiver {
   exe: "ar"

@@ -1,0 +1,24 @@
+//! Source file: FACE/DM/DataModelName/M2.idl
+
+#ifndef FACE_DM_DATAMODELNAME_M2
+#define FACE_DM_DATAMODELNAME_M2
+
+#include <FACE/DM/DataModelName/idlDouble1.idl>
+#include <FACE/DM/DataModelName/M2A3.idl>
+
+module FACE
+{
+    module DM
+    {
+        module DataModelName
+        {
+            struct M2
+            {
+                idlDouble1 m2a2;
+                M2A3 m2a3;
+            };
+        };
+    };
+};
+
+#endif // FACE_DM_DATAMODELNAME_M2

@@ -1,0 +1,17 @@
+//! Source file: FACE/DM/DataModelName/idlDouble1.idl
+
+#ifndef FACE_DM_DATAMODELNAME_IDLDOUBLE1
+#define FACE_DM_DATAMODELNAME_IDLDOUBLE1
+
+module FACE
+{
+    module DM
+    {
+        module DataModelName
+        {
+            typedef double idlDouble1;
+        };
+    };
+};
+
+#endif // FACE_DM_DATAMODELNAME_IDLDOUBLE1

@@ -1,0 +1,15 @@
+# Installation archives
+*.tar.gz
+*.tar
+*.zip
+
+# Object files
+*.a
+*.o
+*.ali
+
+# FACE CTS output
+*.ver_log
+
+# Non-plaintext documentation
+*.pdf

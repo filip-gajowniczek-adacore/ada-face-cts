@@ -1,0 +1,30 @@
+//! Source file: FACE/DM/UoPModelName/T1.idl
+
+#ifndef FACE_DM_UOPMODELNAME_T1
+#define FACE_DM_UOPMODELNAME_T1
+
+#include <FACE/DM/DataModelName/M2.idl>
+#include <FACE/DM/DataModelName/M1.idl>
+
+module FACE
+{
+    module DM
+    {
+        module UoPModelName
+        {
+            module T_T1
+            {
+                typedef sequence<FACE::DM::DataModelName::M2> Seq_M2;
+                
+                struct T1
+                {
+                    Seq_M2 pobs3;
+                    FACE::DM::DataModelName::M1 pobs1;
+                };
+            };
+            typedef T_T1::T1 T1;
+        };
+    };
+};
+
+#endif // FACE_DM_UOPMODELNAME_T1

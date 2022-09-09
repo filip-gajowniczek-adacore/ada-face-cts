@@ -20,7 +20,7 @@ toolchain_specific_config {
   }
   face_null_definition: "#ifdef __cplusplus\n  // Define NULL for C++ as the constant 0 with no specific type.\n  #define FACE_NULL 0\n#else\n  // Define NULL for C as 0 cast to a void pointer.\n  #define FACE_NULL ( (void*) 0 )\n#endif"
 }
-operating_system: "Sys: [Linux], Release: [5.10.0-0.bpo.12-amd64], Version: [#1 SMP Debian 5.10.103-1~bpo10+1 (2022-03-08)], Arch: [64 bits]"
+operating_system: "Sys: [Linux], Release: [5.15.0-46-generic], Version: [#49~20.04.1-Ubuntu SMP Thu Aug 4 19:15:44 UTC 2022], Arch: [64 bits]"
 file_extensions {
   obj: "o"
   src: "c"

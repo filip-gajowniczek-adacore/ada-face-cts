@@ -26,14 +26,14 @@ a link-time conformance test.
 
 --------------------------------------------------------------------------------
 
-So here is our system in action.  I've set up a dedicated environment
-here using a Docker container.  The container holds:
+Overview the system.
 
 # Red Hat Universal Base Image 8
 cat /etc/redhat-release
 
 # The system GCC for C and C++ in standard locations
-ls /usr/bin/{gcc,g++}
+which gcc
+which g++
 
 # GNAT Community 2017 installed in /opt/GNAT
 gnatls -v
@@ -41,49 +41,45 @@ gnatls -v
 # The FACE CTS, version 3.1.2
 ls ~/FACEConformanceTestSuite/
 
-# Sources for our stubbed Ada runtime library
-ls ~/workspace/sample-safetyext/rts-face-gsl-safety_extended/
-
 # Sample source code for the demonstration
-ls ~/workspace/sample-safetyext/safety_extended/
 ls ~/workspace/sample-safetyext/safety_extended/src
 
 --------------------------------------------------------------------------------
+The version 3.1.x of the FACE CTS is missing some capabilities for automated
+conformance testing of Ada:
+- does not include the ability to generate the GSL for Ada Language capability sets
+- does not include the stubbed compiler specific language runtime library
+
+We are proposing a workaround for these limitations with changes to the 
+Ada conformance testing procedures
+
+--------------------------------------------------------------------------------
+Download sources for a FACE approved stubbed Ada language runtime
 
 # Build our custom stubbed Ada language runtime library.
-cd ~/workspace/sample-safetyext/rts-face-gsl-safety_extended/
-gprbuild -j0 -p -P face_gsl_runtime_build.gpr
+cd ~/adacore-face-conformance-tools/FACE_Stubbed_RTLs/rts-face-safety_extended-stub/
+make clean
+make
 
-# Build our application.
-cd ~/workspace/sample-safetyext/safety_extended/
-gprbuild -j0 -p -P client.gpr
+Explain that compilation will insert calls to GNAT GPL GCC's built-ins,
+ so these also need to be stubbed.
 
-# Lots of boobytraps prevening the code from b!  Adjust the demo code to remove them.
+cd ~/workspace/AdaUoC/compiler_intrinsics/
+make clean
+make
+--------------------------------------------------------------------------------
 
-# @TODO: Add GNAT Studio to demo. Use it to build project, and comment out offending lines
-Modify the demo project to comment out the usage of disallowed Ada language features
-Comment out lines 1, 5, 7, 19, 28-29, 34
 
-# Our main program contains a pragma Import that allows
-# the getchar() function to be used within our Ada program.
-cat src/demo.adb
+--------------------------------------------------------------------------------
+Now that we have manually augmented the environment with the features missing
+from the CTS, we will use the target-linker verification methodology to do
+conformance verification of the Ada UoC.
 
-# The Ada runtime is not responsible for providing functionality for
-# non-Ada facilities, so it shouldn't be responsible for checking
-# non-Ada facilities.  So, it's not possible to check for FACE
-# conformant usage of the getchar() symbol using the Ada runtime
-# library.
 
-# At this point, we can see that by using our stubbed runtime library
-# and with a few Restrictions pragmas, much of the checking for FACE
-# conformant usage of Ada can happen at compile time.  But we still
-# need the CTS to make sure our code implements required interfaces,
-# and we need the CTS to check for FACE conformant usage of POSIX
-# interfaces.
-
-# So, we'll bring up the CTS.
 cd ~/FACEConformanceTestSuite
 ./run_CTS_GUI.py
+
+Create a toolchain configuration file for Ada
 
 # @TODO: Address OS Mismatch warning
 Review the Ada toolchain configuration file
@@ -112,25 +108,6 @@ Review the Ada toolchain configuration file
   - Toolchain Template File: /home/face/FACEConformanceTestSuite/datafiles/stringtemplate/defaultAdaToolchainTemplates.stg
 Save As Ada_NonOSS_SafetyExt-AdaGSL.tcfg
 Verify toolchain configuration using Check Configuration button
-
-# @TODO: Address OS Mismatch warning
-Review the Ada project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
- - General
-  - Segment: PCS
-  - Language: Ada
-  - Profile: Safety Extended
-  - Partition: POSIX
-  - Use Multi-Process APIs: Selected
-  - Toolchain Configuration File: ../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt-AdaGSL.tcfg
-  - UoP Name: UoP1
- - Data Model
-  - SDM (Shared Data Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
-  - USM (UoP Supplied Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
-  - UoP: "UoP1"
- - Gold Standard Libraries
-  - GSL Directory: GSL-Ada_NonOSS_PCS_SafetyExt
- - Objects/Libraries # @TODO: Add with descriptions to use in explanation
-Build GSL using Generate Gold Standard Libraries button
 
 Review the C toolchain configuration file (C-SafetyExt-nonOSS.tcfg)
  - General
@@ -240,6 +217,30 @@ void __udivmoddi4() { }
 Save As C_NonOSS_SafetyExt.tcfg
 Verify toolchain configuration using Check Configuration button 
 
+
+--------------------------------------------------------------------------------
+Create project configuration file(s)
+These are used to generate the GSLs that the UoC needs to be built against.
+
+# @TODO: Address OS Mismatch warning
+Review the Ada project configuration file (Ada_NonOSS_PCS_SafetyExt.pcfg)
+ - General
+  - Segment: PCS
+  - Language: Ada
+  - Profile: Safety Extended
+  - Partition: POSIX
+  - Use Multi-Process APIs: Selected
+  - Toolchain Configuration File: ../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt-AdaGSL.tcfg
+  - UoP Name: UoP1
+ - Data Model
+  - SDM (Shared Data Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+  - USM (UoP Supplied Model): "../FACEConformanceTestSuite/sample/datamodels/model.face"
+  - UoP: "UoP1"
+ - Gold Standard Libraries
+  - GSL Directory: GSL-Ada_NonOSS_PCS_SafetyExt
+ - Objects/Libraries # @TODO: Add with descriptions to use in explanation
+Build GSL using Generate Gold Standard Libraries button
+
 Create project configuration file (C_NonOSS_PCS_SafetyExt.pcfg)
 - General
  - Segment: PCS
@@ -258,15 +259,42 @@ Create project configuration file (C_NonOSS_PCS_SafetyExt.pcfg)
 Build GSL using Generate Gold Standard Libraries button
 
 --------------------------------------------------------------------------------
+Implement the required "Factory Functions" whose specification was generated 
+when generating the GSL.
+
 cd ~/workspace/sample-safetyext/injectable_interfaces/
 ./configure.sh /home/face/FACEConformanceTestSuite /home/face/CTSProjects/GSL-Ada_NonOSS_PCS_SafetyExt
 make clean
 make
+
 --------------------------------------------------------------------------------
-cd ~/workspace/sample-safetyext/compiler_intrinsics/
-make clean
-make
---------------------------------------------------------------------------------
+# Build our application against the GSLs and compiler specific stubbed runtime
+cd ~/workspace/AdaUoC
+gprbuild -j0 -p -P client.gpr
+
+# Lots of boobytraps prevening the code from building!  
+Adjust the demo code to remove them.
+
+# @TODO: Add GNAT Studio to demo. Use it to build project, and comment out offending lines
+Modify the demo project to comment out the usage of disallowed Ada language features
+Comment out lines 1, 5, 7, 19, 28-29, 34
+
+# Our main program contains a pragma Import that allows
+# the getchar() function to be used within our Ada program.
+cat src/demo.adb
+
+# The Ada runtime is not responsible for providing functionality for
+# non-Ada facilities, so it shouldn't be responsible for checking
+# non-Ada facilities.  So, it's not possible to check for FACE
+# conformant usage of the getchar() symbol using the Ada runtime
+# library.
+
+# At this point, we can see that by using our stubbed runtime library
+# and with a few Restrictions pragmas, much of the checking for FACE
+# conformant usage of Ada can happen at compile time.  But we still
+# need the CTS to make sure our code implements required interfaces,
+# and we need the CTS to check for FACE conformant usage of POSIX
+# interfaces.
 
 Ada conformance test
 
@@ -277,10 +305,10 @@ Modify the Ada_NonOSS_PCS_SafetyExt project using the CTS to add:
 
 Under Objects/Libraries select Provide Segment Objects/Libraries and add the followings Objs/Libs:
 
- - "../workspace/sample_code/safety_extended/objs/demo.o"
- - "../workspace/sample_code/safety_extended/objs/protected_objects.o"
- - "../workspace/sample_code/safety_extended/objs/tasks.o"
- - "../workspace/sample_code/injectable_interfaces/libada_injectables.a"
+ - "../workspace/AdaUoC/objs/demo.o"
+ - "../workspace/AdaUoC/objs/protected_objects.o"
+ - "../workspace/AdaUoC/objs/tasks.o"
+ - "../workspace/AdaUoC/testing/injectable_interfaces/libada_injectables.a"
 
 Execute conformance testing using the Test UoP Conformance Only button.
 

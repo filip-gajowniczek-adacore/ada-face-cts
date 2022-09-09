@@ -1,0 +1,24 @@
+//! Source file: FACE/DM/DataModelName/M2A3.idl
+
+#ifndef FACE_DM_DATAMODELNAME_M2A3
+#define FACE_DM_DATAMODELNAME_M2A3
+
+#include <FACE/DM/DataModelName/idlFloat1.idl>
+#include <FACE/DM/DataModelName/idlLongDouble1.idl>
+
+module FACE
+{
+    module DM
+    {
+        module DataModelName
+        {
+            struct M2A3
+            {
+                idlFloat1 floatb;
+                idlLongDouble1 longDouble;
+            };
+        };
+    };
+};
+
+#endif // FACE_DM_DATAMODELNAME_M2A3
