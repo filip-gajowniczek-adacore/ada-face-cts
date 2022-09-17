@@ -1,0 +1,36 @@
+pathdirs: "/opt/GNAT/2017-GPL/bin"
+language: LANG_ADA
+toolchain_segment_type: NON_OSS_TOOLCHAIN
+profiles: PROF_SAFETY_EXT
+toolchain_specific_config {
+  allowed_definitions {
+    heading_code: "with Interfaces.C;\n\npackage Allowed_Definitions is\n\n   function memcpy (Dest, Src, N : Integer) return Integer with \n     Export,\n     External_Name => \"memcpy\";\n\n   function memmove (Str1, Str2, N : Integer) return Integer with \n     Export,\n     External_Name => \"memmove\";\n\n   function memcmp (Str1, Str2, N : Integer) return Integer with \n     Export,\n     External_Name => \"memcmp\";\n\nend Allowed_Definitions;"
+    source_code: "package body Allowed_Definitions is\n     \n   function memcpy (Dest, Src, N : Integer) return Integer is\n   begin\n     return 0;\n   end memcpy;\n   \n   function memmove (Str1, Str2, N : Integer) return Integer is\n   begin\n     return 0;\n   end memmove;\n\n   function memcmp (Str1, Str2, N : Integer) return Integer is\n   begin\n     return 0;\n   end memcmp;\n\nend Allowed_Definitions;"
+  }
+}
+operating_system: "Sys: [Linux], Release: [5.15.0-48-generic], Version: [#54~20.04.1-Ubuntu SMP Thu Sep 1 16:17:26 UTC 2022], Arch: [64 bits]"
+file_extensions {
+  obj: "o"
+  src: "adb"
+  hdr: "ads"
+  lib: "a"
+}
+compiler {
+  exe: "gcc"
+  flags: "-c"
+  output_flag: "-o"
+}
+linker {
+  exe: "gcc"
+  flags: "-nodefaultlibs -nostartfiles -lgnat -lgnarl -lgcc_stub"
+  output_flag: "-o"
+  paths: "/home/face/adacore-face-conformance-tools/FACE_Stubbed_RTLs/rts-face-safety_extended-stub/adalib"
+}
+archiver {
+  exe: "ar"
+  flags: "cr"
+}
+binder {
+  exe: "gnatbind"
+}
+toolchain_template: "/home/face/FACEConformanceTestSuite/datafiles/stringtemplate/defaultAdaToolchainTemplates.stg"
