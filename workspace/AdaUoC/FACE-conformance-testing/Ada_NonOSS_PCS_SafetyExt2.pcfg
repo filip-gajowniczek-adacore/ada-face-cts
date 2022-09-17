@@ -15,8 +15,8 @@ pcs {
   }
   segment_objects_config {
     segment_object_type: SEGMENT_OBJECTS_PROVIDED
-    provided_objects_filenames: "../objs/tasks.o"
     provided_objects_filenames: "../objs/demo.o"
+    provided_objects_filenames: "../objs/tasks.o"
     provided_objects_filenames: "../objs/protected_objects.o"
     provided_objects_filenames: "injectable_interfaces/libada_injectables.a"
     build_conformance_objects_config {
@@ -24,7 +24,13 @@ pcs {
   }
   lcm {
   }
+  uses_pcs_csp: false
+  uses_pcs_lcm_initializable: false
+  uses_pcs_lcm_configurable: false
+  uses_pcs_lcm_connectable: false
+  uses_pcs_configuration: false
 }
 base_directory_path: "/home/face/workspace/AdaUoC/FACE-conformance-testing"
 uop_name: "UoP1"
+factory_function_source: ""
 posix_multi_process: true

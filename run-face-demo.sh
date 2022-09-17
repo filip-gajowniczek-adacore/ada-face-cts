@@ -49,12 +49,10 @@ echo "> which gcc"
 echo "> which g++"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo
-echo "The FACE CTS, version 3.1.2"
-echo "> ls ~/FACEConformanceTestSuite/"
+echo "The FACE CTS, version 3.1.2 with C Safety Extended GSLs prebuilt"
+echo "> ls ~/FACEConformanceTestSuite/sample/projects/C/build_GSL"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo
-# @TODO: Determine if CTS can install C POSIX GSL's for Safety Extended Profile
-
 echo "Explain:"
 echo "The version 3.1.x of the FACE CTS is missing some capabilities for automated"
 echo "conformance testing of Ada:"
@@ -183,12 +181,18 @@ select yn in "Y" "N"; do
 	esac
 done
 
+# @TODO: Develop a trivial data model with interfaces the Ada UoC will actually implement/use
+# Right now we are reusing a sample data model from the CTS whose interfaces
+# the Ada UoC doesn't actually use or implement.
+# As a result, the current approach is hacky and hard to explain. We reuse the factory
+# function implementations of the corresponding sample project which provides no-op 
+# implementations for each interface. 
 echo "----------------------Factory Function Implementation-----------------------------"
 echo "Implement the required \"Factory Functions\" whose specification was generated "
 echo "when generating the GSL."
 
-echo "> cd ~/workspace/sample-safetyext/injectable_interfaces/"
-echo "> ./configure.sh /home/face/FACEConformanceTestSuite /home/face/CTSProjects/GSL-Ada_NonOSS_PCS_SafetyExt"
+echo "> cd ~/workspace/AdaUoC/FACE-conformance-testing/injectable_interfaces/"
+echo "> ./configure.sh /home/face/FACEConformanceTestSuite ..//GSL//GSL-Ada_NonOSS_PCS_SafetyExt"
 echo "> make clean"
 echo "> make"
 echo

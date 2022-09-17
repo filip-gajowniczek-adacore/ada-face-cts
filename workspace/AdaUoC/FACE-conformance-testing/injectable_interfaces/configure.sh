@@ -124,7 +124,7 @@ ${prj_src_dirs}
    );
    for Object_Dir use "obj";
 
-   for Runtime ("Ada") use "../rts-face-gsl-safety_extended/";
+   for Runtime ("Ada") use "../rts-face-safety_extended-stub/";
 
 end Injectable_Interfaces;
 EOF

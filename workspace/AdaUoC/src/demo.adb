@@ -27,9 +27,9 @@ procedure Demo is
    --  Z : Wide_Character := Ada.Strings.Wide_Space;
 
 
-   function getchar return Integer
-     with Import => True, Convention => C;
-   C : Integer := getchar;
+   --  function getchar return Integer
+   --    with Import => True, Convention => C;
+   --  C : Integer := getchar;
 
 begin
    Protected_Objects.PO.E;
