@@ -1,1 +1,0 @@
-FACEConformanceTestSuite/sample/projects/Ada/PCS/Safetyext/PCS/face_configuration_injectable_injectable_impl.ads

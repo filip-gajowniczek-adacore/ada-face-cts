@@ -1,10 +1,10 @@
 with Ada.Task_Identification;  -- Allowed usage of Ada GSL package
 
---  with System.VxWorks.Ext;  -- Disallowed usage of an internal package
+with System.VxWorks.Ext;  -- Disallowed usage of an internal package
 
 -- Disallowed features not supported by stubbed runtime
---  with Calendar;
---  with Ada.Calendar;
+with Calendar;
+with Ada.Calendar;
 
 with Ada.Characters.Handling;
 with Ada.Strings;
@@ -21,15 +21,15 @@ procedure Demo is
    --  and the GNAT specific restrictions:
    --       pragma Restrictions (No_Use_Of_Entity => Wide_String);
    --       pragma Restrictions (No_Use_Of_Entity => Wide_Wide_String);
-   --  X : Wide_Character;
-   --  Y : constant Wide_Character :=
-   --  Ada.Characters.Handling.To_Wide_Character ('x');
-   --  Z : Wide_Character := Ada.Strings.Wide_Space;
+   X : Wide_Character;
+   Y : constant Wide_Character :=
+   Ada.Characters.Handling.To_Wide_Character ('x');
+   Z : Wide_Character := Ada.Strings.Wide_Space;
 
 
-   --  function getchar return Integer
-   --    with Import => True, Convention => C;
-   --  C : Integer := getchar;
+   function getchar return Integer
+     with Import => True, Convention => C;
+   C : Integer := getchar;
 
 begin
    Protected_Objects.PO.E;

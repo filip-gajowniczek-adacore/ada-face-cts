@@ -1,6 +1,0 @@
-with IDL_Modules.FACE_IDL_11_1_DM_1_1_UoPModelName_1_1_T_T2_1_1;
-package IDL_Modules.FACE_IDL_11_1_DM_1_1_UoPModelName_1_1 is
-	
-	subtype T2 is IDL_Modules.FACE_IDL_11_1_DM_1_1_UoPModelName_1_1_T_T2_1_1.T2;
-
-end IDL_Modules.FACE_IDL_11_1_DM_1_1_UoPModelName_1_1;

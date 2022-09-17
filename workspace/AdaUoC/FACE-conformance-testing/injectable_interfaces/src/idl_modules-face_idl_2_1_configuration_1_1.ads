@@ -1,1 +1,0 @@
-FACEConformanceTestSuite/goldStandardLibraries/Ada/include/FACE/OSS/Configuration/idl_modules-face_idl_2_1_configuration_1_1.ads

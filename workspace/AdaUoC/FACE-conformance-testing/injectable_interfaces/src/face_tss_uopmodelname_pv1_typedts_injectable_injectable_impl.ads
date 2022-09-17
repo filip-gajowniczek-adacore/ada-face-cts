@@ -1,1 +1,0 @@
-FACEConformanceTestSuite/sample/projects/Ada/PCS/General/PCS/face_tss_uopmodelname_pv1_typedts_injectable_injectable_impl.ads

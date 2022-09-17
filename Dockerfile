@@ -129,7 +129,7 @@ ARG CTS_DIR="/home/face/FACEConformanceTestSuite"
 # We need to run ./sample/testUtility.py as the face user with a login
 # shell so that all the /etc/profile.d stuff is sourced in.
 RUN cd "$CTS_DIR/sample" \
-    && runuser -u face -- /usr/bin/bash --login -c "/usr/bin/python testUtility.py --projects --toolchains --build_gsls --c --safety_ext"
+    && runuser -u face -- /usr/bin/bash --login -c "/usr/bin/python testUtility.py --projects --toolchains --build_gsls --c --ada --safety_ext"
 
 # Additional useful gear for development.  Also, remove packages that
 # interfere with X11 over a network (including sockets to communicate
