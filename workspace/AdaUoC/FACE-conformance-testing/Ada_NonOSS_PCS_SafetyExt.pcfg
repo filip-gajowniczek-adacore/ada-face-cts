@@ -2,7 +2,7 @@ segment: PCS
 language: LANG_ADA
 profile: PROF_SAFETY_EXT
 partition: PART_POSIX
-toolchain_filename: "../../../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt-AdaGSL.tcfg"
+toolchain_filename: "../../../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt_Stubbed_GPL2017.tcfg"
 gold_standard_lib_dir: "GSL/GSL-Ada_NonOSS_PCS_SafetyExt"
 versions {
 }
