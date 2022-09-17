@@ -1,0 +1,36 @@
+segment: PCS
+language: LANG_ADA
+profile: PROF_SAFETY_EXT
+partition: PART_POSIX
+toolchain_filename: "../../../FACEConformanceTestSuite/toolchain/configuration_files/Ada_NonOSS_SafetyExt-AdaGSL.tcfg"
+gold_standard_lib_dir: "GSL/GSL-Ada_NonOSS_PCS_SafetyExt"
+versions {
+}
+operating_system: "Sys: [Linux], Release: [5.15.0-46-generic], Version: [#49~20.04.1-Ubuntu SMP Thu Aug 4 19:15:44 UTC 2022], Arch: [64 bits]"
+pcs {
+  data_model {
+    sdm: "model.face"
+    usm: "model.face"
+    uop: "UoP1"
+  }
+  segment_objects_config {
+    segment_object_type: SEGMENT_OBJECTS_PROVIDED
+    provided_objects_filenames: "../objs/demo.o"
+    provided_objects_filenames: "../objs/tasks.o"
+    provided_objects_filenames: "../objs/protected_objects.o"
+    provided_objects_filenames: "injectable_interfaces/libada_injectables.a"
+    build_conformance_objects_config {
+    }
+  }
+  lcm {
+  }
+  uses_pcs_csp: false
+  uses_pcs_lcm_initializable: false
+  uses_pcs_lcm_configurable: false
+  uses_pcs_lcm_connectable: false
+  uses_pcs_configuration: false
+}
+base_directory_path: "/home/face/workspace/AdaUoC/FACE-conformance-testing"
+uop_name: "UoP1"
+factory_function_source: ""
+posix_multi_process: true
