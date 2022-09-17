@@ -20,7 +20,7 @@ adalib/libgcc_stub.a: fake_gcc_symbols.o
 
 clean:
 	rm -f fake_gcc_symbols.c
-	rm -f *.o
-	rm -f *.a
-	rm -f *.ali
+	rm -rf *.o
+	rm -rf *.a
+	rm -rf *.ali
 	gprclean -P face_stubbed_runtime_build.gpr -r -f

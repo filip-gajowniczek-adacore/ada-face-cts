@@ -18,7 +18,7 @@ compiler {
 }
 linker {
   exe: "gcc"
-  flags: "-nodefaultlibs -nostartfiles -lgnat -lgnarl -lgcc_stub /home/face/workspace/AdaUoC/FACE-conformance-testing/GSL/GSL-C_NonOSS_PCS_SafetyExt/posixSafetyextLimitedGoldLib.a"
+  flags: "-nodefaultlibs -nostartfiles -lgnat -lgnarl -lgcc_stub /home/face/FACEConformanceTestSuite/sample/projects/C/build_GSL//posixSafetyextLimitedGoldLib.a"
   output_flag: "-o"
   paths: "/home/face/adacore-face-conformance-tools/FACE_Stubbed_RTLs/rts-face-safety_extended-stub/adalib"
 }

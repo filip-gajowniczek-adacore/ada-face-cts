@@ -7,8 +7,8 @@ Repository containing the environment for Ada FACE UoC conformance testing and a
 *  GNAT Studio Linux installation archive (must be in the same directory as this README)
 
 # Building the Development Environment Image
+Execute the command to build image:
 ## Bare CTS environment
-Execute the build command:
 ```
 sudo docker build -t rh_ubi-8-cts-3.1.2 .
 ```

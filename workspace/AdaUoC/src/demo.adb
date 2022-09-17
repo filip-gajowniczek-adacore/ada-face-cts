@@ -1,11 +1,10 @@
---  with System.VxWorks.Ext;  -- an internal package
+with Ada.Task_Identification;  -- Allowed usage of Ada GSL package
 
-with Ada.Task_Identification;  -- allowed
+--  with System.VxWorks.Ext;  -- Disallowed usage of an internal package
 
---  with Calendar;      --  already not supported by Ravenscar in cert runtime
---     error: violation of implicit restriction "No_Calendar"
---  with Ada.Calendar;  --  already not supported by Ravenscar in cert runtime
---     error: "Ada.Calendar" is not a predefined library unit
+-- Disallowed features not supported by stubbed runtime
+--  with Calendar;
+--  with Ada.Calendar;
 
 with Ada.Characters.Handling;
 with Ada.Strings;
@@ -16,29 +15,21 @@ with Protected_Objects; --  pragma Unreferenced (Protected_Objects);
 
 procedure Demo is
 
-   --  X : Wide_Character;
-   --  We would need to change package Standard and rebuild the compiler to
-   --  prevent this, but we can use the GNAT-defined restriction
+   --  Disallowed usage of feature whose support is impractical to remove from
+   --  runtime (require change in package Standard and rebuild the compiler).
+   --  Instead detected at compile time using Ada pragma Restriction feature
+   --  and the GNAT specific restrictions:
    --       pragma Restrictions (No_Use_Of_Entity => Wide_String);
    --       pragma Restrictions (No_Use_Of_Entity => Wide_Wide_String);
-   --  to disallow them:
-   --    error: reference to "Wide_Character" violates restriction
-   --           No_Use_Of_Entity at ...\face_restrictions.adc:1
-
+   --  X : Wide_Character;
    --  Y : constant Wide_Character :=
-         --  Ada.Characters.Handling.To_Wide_Character ('x');
-   --  error: reference to "Wide_Character" violates restriction
-   --         No_Use_Of_Entity at ...\face_restrictions.adc:1
-   --  error: "To_Wide_Character" not declared in "Handling"
-
+   --  Ada.Characters.Handling.To_Wide_Character ('x');
    --  Z : Wide_Character := Ada.Strings.Wide_Space;
-   --  error: reference to "Wide_Character" violates restriction
-   --         No_Use_Of_Entity at ...\face_restrictions.adc:1
-   --  error: "Wide_Space" not declared in "Strings"
 
-   --  function getchar return Integer
-   --    with Import => True, Convention => C;
-   --  C : Integer := getchar;
+
+   function getchar return Integer
+     with Import => True, Convention => C;
+   C : Integer := getchar;
 
 begin
    Protected_Objects.PO.E;
