@@ -20,10 +20,10 @@ procedure Demo is
    --  and the GNAT specific restrictions:
    --       pragma Restrictions (No_Use_Of_Entity => Wide_String);
    --       pragma Restrictions (No_Use_Of_Entity => Wide_Wide_String);
-   X : Wide_Character;
-   Y : constant Wide_Character :=
-   Ada.Characters.Handling.To_Wide_Character ('x');
-   Z : Wide_Character := Ada.Strings.Wide_Space;
+   --  X : Wide_Character;
+   --  Y : constant Wide_Character :=
+   --  Ada.Characters.Handling.To_Wide_Character ('x');
+   --  Z : Wide_Character := Ada.Strings.Wide_Space;
 
 
    -- Disallowed POSIX API usage
