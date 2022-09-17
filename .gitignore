@@ -13,3 +13,6 @@
 
 # Non-plaintext documentation
 *.pdf
+
+# GNAT Build Logs
+*.stderr
