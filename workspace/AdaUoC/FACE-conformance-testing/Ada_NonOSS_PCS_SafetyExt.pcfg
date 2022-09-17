@@ -15,6 +15,10 @@ pcs {
   }
   segment_objects_config {
     segment_object_type: SEGMENT_OBJECTS_PROVIDED
+    provided_objects_filenames: "../objs/demo.o"
+    provided_objects_filenames: "../objs/protected_objects.o"
+    provided_objects_filenames: "../objs/tasks.o"
+    provided_objects_filenames: "injectable_interfaces/libada_injectables.a"
     build_conformance_objects_config {
     }
   }
