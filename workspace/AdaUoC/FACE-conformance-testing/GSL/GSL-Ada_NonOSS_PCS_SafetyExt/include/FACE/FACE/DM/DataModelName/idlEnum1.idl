@@ -1,0 +1,21 @@
+//! Source file: FACE/DM/DataModelName/idlEnum1.idl
+
+#ifndef FACE_DM_DATAMODELNAME_IDLENUM1
+#define FACE_DM_DATAMODELNAME_IDLENUM1
+
+module FACE
+{
+    module DM
+    {
+        module DataModelName
+        {
+            enum idlEnum1
+            {
+                e12,                
+                e14                
+            };
+        };
+    };
+};
+
+#endif // FACE_DM_DATAMODELNAME_IDLENUM1

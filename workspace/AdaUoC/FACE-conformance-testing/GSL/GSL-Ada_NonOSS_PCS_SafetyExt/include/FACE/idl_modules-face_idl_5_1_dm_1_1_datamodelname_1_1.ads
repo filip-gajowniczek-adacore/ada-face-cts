@@ -1,0 +1,5 @@
+package IDL_Modules.FACE_IDL_5_1_DM_1_1_DataModelName_1_1 is
+	
+	subtype idlLongDouble1 is IDL_Modules.Long_Double;
+
+end IDL_Modules.FACE_IDL_5_1_DM_1_1_DataModelName_1_1;
