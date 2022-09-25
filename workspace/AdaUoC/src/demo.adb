@@ -3,7 +3,6 @@ with Ada.Task_Identification;  -- Allowed usage of Ada GSL package
 with System.VxWorks.Ext;  -- Disallowed usage of an internal package
 
 -- Disallowed features not supported by stubbed runtime
-with Calendar;
 with Ada.Calendar;
 
 with Ada.Characters.Handling;
@@ -27,9 +26,15 @@ procedure Demo is
    Z : Wide_Character := Ada.Strings.Wide_Space;
 
 
+   -- Disallowed POSIX API usage
    function getchar return Integer
      with Import => True, Convention => C;
    C : Integer := getchar;
+
+   -- Allowed POSIX API usage
+   function errno return Integer
+     with Import => True, Convention => C;
+   E : Integer := errno;
 
 begin
    Protected_Objects.PO.E;
