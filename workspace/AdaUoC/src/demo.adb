@@ -27,9 +27,9 @@ procedure Demo is
 
 
    -- Disallowed POSIX API usage
-   function getchar return Integer
-     with Import => True, Convention => C;
-   C : Integer := getchar;
+   --  function getchar return Integer
+   --    with Import => True, Convention => C;
+   --  C : Integer := getchar;
 
    -- Allowed POSIX API usage
    function errno return Integer
