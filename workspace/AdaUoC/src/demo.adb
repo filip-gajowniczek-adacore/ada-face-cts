@@ -1,9 +1,9 @@
 with Ada.Task_Identification;  -- Allowed usage of Ada GSL package
 
-with System.VxWorks.Ext;  -- Disallowed usage of an internal package
+--  with System.VxWorks.Ext;  -- Disallowed usage of an internal package
 
 -- Disallowed features not supported by stubbed runtime
-with Ada.Calendar;
+--  with Ada.Calendar;
 
 with Ada.Characters.Handling;
 with Ada.Strings;
