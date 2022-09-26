@@ -19,6 +19,7 @@ pcs {
     provided_objects_filenames: "../objs/protected_objects.o"
     provided_objects_filenames: "../objs/tasks.o"
     provided_objects_filenames: "injectable_interfaces/libada_injectables.a"
+    provided_objects_filenames: "../../../FACEConformanceTestSuite/sample/projects/C/build_GSL/posixSafetyextGoldLib.a"
     build_conformance_objects_config {
     }
   }
