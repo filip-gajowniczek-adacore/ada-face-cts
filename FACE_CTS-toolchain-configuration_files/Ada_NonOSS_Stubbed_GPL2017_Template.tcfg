@@ -1,0 +1,31 @@
+language: LANG_ADA
+toolchain_segment_type: NON_OSS_TOOLCHAIN
+toolchain_specific_config {
+  allowed_definitions {
+    heading_code: "with Interfaces.C;\n\npackage Allowed_Definitions is\n\n   function memcpy (Dest, Src, N : Integer) return Integer with \n     Export,\n     External_Name => \"memcpy\";\n\n   function memmove (Str1, Str2, N : Integer) return Integer with \n     Export,\n     External_Name => \"memmove\";\n\n   function memcmp (Str1, Str2, N : Integer) return Integer with \n     Export,\n     External_Name => \"memcmp\";\n\nend Allowed_Definitions;"
+    source_code: "package body Allowed_Definitions is\n     \n   function memcpy (Dest, Src, N : Integer) return Integer is\n   begin\n     return 0;\n   end memcpy;\n   \n   function memmove (Str1, Str2, N : Integer) return Integer is\n   begin\n     return 0;\n   end memmove;\n\n   function memcmp (Str1, Str2, N : Integer) return Integer is\n   begin\n     return 0;\n   end memcmp;\n\nend Allowed_Definitions;"
+  }
+}
+file_extensions {
+  obj: "o"
+  src: "adb"
+  hdr: "ads"
+  lib: "a"
+}
+compiler {
+  exe: "gcc"
+  flags: "-c"
+  output_flag: "-o"
+}
+linker {
+  exe: "gcc"
+  flags: "-nodefaultlibs -nostartfiles -lgnat -lgnarl -lgcc_stub"
+  output_flag: "-o"
+}
+archiver {
+  exe: "ar"
+  flags: "cr"
+}
+binder {
+  exe: "gnatbind"
+}

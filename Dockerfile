@@ -20,6 +20,8 @@ ARG JDK_PROFILE_SNIPPET_FILENAME="jdk.sh"
 FROM registry.access.redhat.com/ubi8/ubi-minimal as Downloader
 RUN microdnf install tar gzip unzip patch wget
 
+# Start dependencies for a standard CTS install
+
 ################################################################################
 FROM Downloader AS install_jdk
 ARG JDK_TGZ_FILENAME
@@ -29,6 +31,15 @@ RUN wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=acc
     && mkdir /usr/lib/jvm \
     && tar zxf "$JDK_TGZ_FILENAME" -C /usr/lib/jvm
 
+
+################################################################################
+FROM Downloader AS install_ant
+ARG ANT_BZ2_FILENAME
+
+RUN microdnf install tar bzip2 \
+    && cd /tmp \
+    && wget --content-disposition https://dlcdn.apache.org//ant/binaries/$ANT_BZ2_FILENAME \
+    && tar xjf "$ANT_BZ2_FILENAME"
 
 ################################################################################
 FROM Downloader AS install_CTS
@@ -42,8 +53,12 @@ COPY "$CTS_PATCH_FILENAME" /tmp/
 RUN mkdir "/tmp/$CTS_INSTALL_DIR" \
     && cd "/tmp/$CTS_INSTALL_DIR" \
     && unzip -q /tmp/Archive_5.zip \
-    # && patch -p0 < "/tmp/$CTS_PATCH_FILENAME" \
     && rm -rf "/tmp/$CTS_INSTALL_DIR/__MACOSX" "/tmp/$CTS_ZIP_FILENAME"
+
+# End dependencies for a standard CTS install
+
+
+# Start dependencies/procedures used in FACE approved correction for Ada conformance verification
 
 ################################################################################
 FROM Downloader AS install_gnat
@@ -57,15 +72,6 @@ RUN microdnf install tar gzip make ncurses findutils \
     && tar xzf "$GNAT_FILENAME" \
     && cd /tmp/gnat*bin \
     && (echo; echo "$GNAT_INSTALL_DIR"; echo y; echo y) | ./doinstall
-
-################################################################################
-FROM Downloader AS install_ant
-ARG ANT_BZ2_FILENAME
-
-RUN microdnf install tar bzip2 \
-    && cd /tmp \
-    && wget --content-disposition https://dlcdn.apache.org//ant/binaries/$ANT_BZ2_FILENAME \
-    && tar xjf "$ANT_BZ2_FILENAME"
 
 # Add dependencies universal base image by copying only what is needed from previously built stages
 ################################################################################
@@ -158,5 +164,9 @@ RUN cd /tmp \
 
 # Add command to put GNAT Studio & GNAT GPL into PATH environment variable 
 ENV PATH=/opt/gnatstudio/bin:$GNAT_INSTALL_DIR/bin:$PATH
+
+# Stubbed runtime sources
+# @TODO: Update this to get the sources from the FACE approved location
+RUN cd /home/face/ && git clone -b approved-face-correction git@github.com:filip-gajowniczek-adacore/face-conformance-tools.git adacore-face-conformance-tools
 
 # @TODO: Add GNATcheck for FACE
